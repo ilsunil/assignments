@@ -1,11 +1,17 @@
 body {
-        background-color: red;
-        color: blue;
+        background-color: blue;
+        color: white;
         margin: 0;
         padding: 0;
     }
-h1{
-  color: blue;
+header h1{
+  color: white;
   font: bold 24px/1 Times New Roman, Times, serif;
   padding: 15px 12px;
 }
+#top{background-color: blue;
+        color: white;}
+
+ .main .title{
+       color: #ffffff;
+  }
