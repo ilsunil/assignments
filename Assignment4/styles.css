@@ -1,0 +1,60 @@
+#top {
+    background: #fdffaa;
+    background: -moz-linear-gradient(top, #fdffaa 0%, #eeff00 100%);
+    background: -webkit-linear-gradient(top, #fdffaa 0%, #eeff00 100%);
+    background: linear-gradient(to bottom, #fdffaa 0%, #eeff00 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdffaa', endColorstr='#eeff00', GradientType=0);
+    color: #333333;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, helvetica, sans-serif;
+}
+
+#top header {
+    width: 140px;
+    height: 70px;
+    border: 1px solid red;
+    color: #ffffff;
+    padding: 20px;
+    background: #3813C6;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+}
+
+#myid {
+    background-color: white;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, helvetica, sans-serif;
+}
+
+#myid > .mybrand {
+    background-color: green;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+
+}
+#myid > .column {
+    background-color: #fff;
+    color: #fff;
+    margin: 0;
+   display: flex;
+
+}
+#myid > .column > div {
+    background-color: green;
+    width:33%;
+    height: 500px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+}
+@media only screen and (max-width: 450px) {
+    #myid > .mybrand {
+        background-color: blue !important;
+    }
+}
