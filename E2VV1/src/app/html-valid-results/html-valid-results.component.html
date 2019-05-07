@@ -1,0 +1,448 @@
+<div class="col-lg-11 col-md-9 col-sm-9 col-xs-9 bhoechie-tab pull-left"> 
+    <!-- flight section -->
+    <div class="bhoechie-tab-content active">
+      <center>        
+        <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" 
+           id="htmlMarkup"  *ngIf="htmlSection=='markup'">
+          <h1>{{fileName}}</h1>
+          <h2>HTML MARKUP</h2>
+          <div class="col-lg-12 pt-2 pb-2 HTMLmarkup"> 
+              <span>HTML <i aria-hidden="true"></i> </span> 
+              <span>HEAD <i aria-hidden="true"></i> </span> 
+              <span>TITLE <i aria-hidden="true"></i> </span> 
+              <span>CONTENT TYPE <i aria-hidden="true"></i> </span> 
+              <span>BODY <i aria-hidden="true"></i> </span> 
+              <span>LANGUAGE <i aria-hidden="true"></i> </span> 
+              <span>HIDDEN PRE-HEADER <i aria-hidden="true"></i> </span>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </center>
+    </div>
+
+    <!-- train section -->
+    <div class="bhoechie-tab-content active">
+      <center>        
+        <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" 
+          id="htmlAttributes"  *ngIf="htmlSection=='attributes'">
+          <h1>{{fileName}}</h1>
+          <h2>ATTRIBUTES</h2>
+          <div class="col-lg-12 pt-2 pb-2 Attribute">
+            <div class="valuesection"><span class="text">HREF="</span>
+              <!-- Revisit -->
+              <div class="value"><span class="totalAnchor">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HREF=""</span>
+              <!-- Revisit -->
+              <div class="value"><span class="totalHREF">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HREF=" " /(%20)</span>
+              <!-- Revisit -->
+              <div class="value"><span class="invalidlink">1</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HREF="#</span>
+              <!-- Revisit -->
+              <div class="value"><span class="BlankHREF errortd">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">LINKID=''</span>
+              <!-- Revisit -->
+              <div class="value"><span class="harmonyLink">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HTTTP</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HTTP (%20)</span>
+              <!-- Revisit -->
+              <div class="value"><span class="spaceLink errortd">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HTTP://</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HTTP:/ </span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HTTP:</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">HTTP</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">..COM</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">,COM</span>
+              <!-- Revisit -->
+              <div class="value"><span class="errortd">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">WWWW</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">W3</span>
+              <!-- Revisit -->
+              <div class="value"><span class="errortd">0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">SRC="</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">SRC=</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">."</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">[/@</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">trackurl] "</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">=" "</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">&lt;BODY&gt;</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">/BODY&gt;</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HTML&gt;</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"><span class="text">&lt;!DOCTYPE</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HEAD&gt;</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">&lt;META&gt;</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+            <!-- <div class="valuesection"> <span class="text">MAILTO</span>
+              <div class="value"><span id="mailto">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">TEL:</span>              
+              <div class="value"><span>0</span></div>
+            </div> -->
+          </div>
+        </div>
+      </center>
+    </div>
+    
+    <!-- hotel search -->
+    <div class="bhoechie-tab-content active">
+      <center>        
+        <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" 
+            *ngIf="htmlSection=='tables'">
+          <h1>Creative_P2_BizBox_remarketing_email.html</h1>
+          <h2>TABLES</h2>
+          <div class="col-lg-12 pt-2 pb-2">
+            <div class="valuesection"> 
+              <div class="col-md-6 d-inline-block"><span class="text">&lt;TABLE&gt;</span></div>
+              <div class="col-md-6 d-inline-block"><span class="text">&lt;/TABLE&gt;</span></div>
+              <div class="value">
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="table_open">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="table_close">0</span></div>
+                  </div>
+            </div>
+            <div class="valuesection"> <div class="col-md-6 d-inline-block">
+              <span class="text">&lt;TR&gt;</span></div>
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;/TR&gt;</span></div>
+              <div class="value">
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="tr_open">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="tr_close">0</span></div>
+                  </div>
+            </div>
+            <div class="valuesection"> 
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;TD&gt;</span></div>
+                <div class="col-md-6 d-inline-block">
+                  <span class="text">&lt;/TD&gt;</span></div>
+              <div class="value">
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="td_open">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="td_close">0</span></div></div>
+            </div>
+            <div class="valuesection"> 
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;DIV&gt;</span></div>
+                <div class="col-md-6 d-inline-block">
+                  <span class="text">&lt;/DIV&gt;</span></div>
+              <div class="value">
+                <!-- Revisit -->
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="div_open">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="div_close">0</span></div></div>
+            </div>
+            <div class="valuesection"> 
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;SPAN&gt;</span></div>
+                <div class="col-md-6 d-inline-block">
+                  <span class="text">&lt;/SPAN&gt;</span></div>
+              <div class="value">
+                <!-- Revisit -->
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="span_open">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="span_close">0</span></div></div>
+            </div>
+            <div class="valuesection"> 
+              <!-- Revisit -->
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;SUP&gt;</span></div>
+                <div class="col-md-6 d-inline-block">
+                  <span class="text">&lt;/SUP&gt;</span></div>
+              <div class="value">
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="sup_open">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="sup_close">0</span></div></div>
+            </div>
+            <div class="valuesection"> 
+              <!-- Revisit -->
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;--[IF</span></div>
+                <div class="col-md-6 d-inline-block">
+                  <span class="text">[ENDIF]--&gt;</span></div>
+              <div class="value">
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="open_cm">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <span id="close_cm">0</span></div></div>
+            </div>
+            <div class="valuesection"> <span class="text">WIDTH=</span>
+              <div class="value"><span id="blankTd">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">IMAGE WIDTH &gt; TD</span>
+              <!-- Revisit -->
+              <div class="value"><span class="errortd" id="tdWidthCount">0</span></div>
+            </div>
+            
+          </div>
+        </div>
+      </center>
+    </div>
+
+    <div class="bhoechie-tab-content active">
+      <center>        
+        <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent"
+            *ngIf="htmlSection=='images'">
+          <h1>Creative_P2_BizBox_remarketing_email.html</h1>
+          <h2>IMAGES</h2>
+          <div class="col-lg-12 pt-2 pb-2">
+            <div class="valuesection"> <span class="text">&lt;IMG&gt;</span>
+              <div class="value"><span id="imgs">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">DISPLAY:BLOCK</span>
+              <div class="value"><span id="disp">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">DISPLAY:INLINE-BLOCK</span>
+              <div class="value"><span id="disp_inline">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">IMG[SRC="SPACE"]</span>
+              <div class="value"><span class="errortd" id="src_space">0</span></div>
+              <!-- Revisit -->
+            </div>
+            <div class="valuesection"> <span class="text">ALT=" "</span>
+              <div class="value"><span id="alts">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">TITLE=" "</span>
+              <div class="value"><span id="titls">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">BLANK ALT</span>
+              <div class="value"><span class="errortd" id="Blnk_alts">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">BLANK TITLE</span>
+              <div class="value"><span id="Blnk_titls">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">SRC="BLANK"</span>
+              <div class="value"><span id="src_blank">0</span></div>
+              <!-- Revisit -->
+            </div>
+            <div class="valuesection"> <span class="text">SRC="HTTP</span>
+              <div class="value"><span id="srcHttp">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">BACKGROUND="HTTP</span>
+              <div class="value"><span id="backgrnd">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">BORDER="0" </span>
+              <div class="value"><span id="brder_count">0</span></div>
+              <!-- Revisit -->
+            </div>
+          </div>
+        </div>
+      </center>
+    </div>
+
+    <div class="bhoechie-tab-content active">
+      <center>        
+        <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent"
+            *ngIf="htmlSection=='content'">
+          <h1>{{fileName}}</h1>
+          <h2>CONTENT</h2>
+          <div class="col-lg-12 pt-2 pb-2">
+            <div class="valuesection"> 
+              <div class="col-md-6 d-inline-block">
+                <span class="text">&lt;A&gt;</span></div>
+                <div class="col-md-6 d-inline-block">
+                  <span class="text">&lt;/A&gt;</span></div>
+              <div class="value">
+                <div class="col-md-6 d-inline-block" style="border-right: 1px solid #ffffff;">
+                  <span id="anchor">0</span></div>
+                  <div class="col-md-6 d-inline-block">
+                    <!-- Revisit -->
+                    <span id="close_anchor">0</span></div></div>
+            </div>
+            <div class="valuesection"> <span class="text">TARGET="_BLANK</span>
+              <div class="value"><span id="trget">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">TEL</span>
+              <!-- Revisit -->
+              <div class="value"><span id="telto">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HREF="W"</span>
+              <div class="value"><span class="errortd" id="hrefw">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HREF="HTTP"</span>
+              <div class="value"><span id="http">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">MAIL TO</span>              
+              <div class="value"><span id="mailto">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HREF="COUNT"</span>
+              <!-- Revisit -->
+              <div class="value"><span class="errortd" id="hreff">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HREF="SPACE"</span>
+              <!-- Revisit -->
+              <div class="value"><span id="href_space-all">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HREF="#"</span>              
+              <div class="value"><span id="hash">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">HREF="HTTPS"</span>
+              <div class="value"><span id="https">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">ALIAS="COUNT"</span>
+              <!-- Revisit -->
+              <div class="value"><span id="aliasCount">0</span></div>
+            </div>
+            <div class="valuesection"> <span class="text">CONVERSION="TRUE"</span>
+              <!-- Revisit -->
+              <div class="value"><span>0</span></div>
+            </div>
+          </div>
+        </div>
+      </center>
+    </div>
+
+    <div class="bhoechie-tab-content active">
+      <center>        
+        <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent"
+            *ngIf="htmlSection=='tools'">
+          <h1>Creative_P2_BizBox_remarketing_email.html</h1>
+          <h2>TOOLS</h2>
+          <div class="col-md-12 text-center" style="width: 76%">
+            <nav class="nav-justified ">
+              <div class="nav nav-tabs " id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="pop1-tab" data-toggle="tab" href="#pop1" role="tab" aria-controls="pop1" aria-selected="true">HTML TO TEXT CONVERT</a>
+                <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2" role="tab" aria-controls="pop2" aria-selected="false">FONT-FAMILY</a>
+                <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3" role="tab" aria-controls="pop3" aria-selected="false">IMAGE PATHS</a>
+                                  <a class="nav-item nav-link" id="pop4-tab" data-toggle="tab" href="#pop4" role="tab" aria-controls="pop4" aria-selected="false">URL'S USED</a>
+                
+              </div>
+            </nav>
+            <div class="tab-content mt-3" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="pop1" role="tabpanel" aria-labelledby="pop1-tab">
+                     <div class="pt-3">					<button type="button" class="btn btn-primary validate mr-2"> <i class="fa fa-file-text"></i>&nbsp; CONVERT TO TEXT </button>
+</div> 
+                    <p><textarea rows="12" cols="24" class="w-100 mt-3" style="margin-top: 16px; margin-bottom: 0px; height: 282px;"></textarea></p>
+                                
+                  </div>
+              <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
+                   <div class="pt-1 mb-4"> <blockquote class="quote-card blue-card">
+         <span class="fontsUsed">"Times New Roman"<br>Arial, Helvetica, sans-serif<br>Tahoma, Geneva, Arial, Helvetica, sans-serif<br>Tahoma, Geneva, sans-serif</span>
+      </blockquote>
+                  
+              </div></div>
+              <div class="tab-pane fade  text-left pl-3 mb-2" style="line-height: 20px;" id="pop3" role="tabpanel" aria-labelledby="pop3-tab">
+                   <div class="pt-1">
+                                            <ul class="imgPath imagelist">
+                                              <li>http://images.bfi0.com/creative/2016/barclaycard/05-16/0375/img/card-fpo.jpg</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/padlock.gif</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/billboards/aa2_au.jpg</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_multi.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_add.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_spread.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/buttons/add_user_aa2.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/facebook.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/twitter.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/youtube.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/google_plus.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/instagram.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/appStore.png</li>
+                                              <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/googlePlay.png</li>
+                                              <li>http://images.bfi0.com/creative/2016/barclaycard/05-16/0375/img/aadvantage-logo.jpg</li>
+                                              <li>http://images.bfi0.com/creative/2015/barclaycard/07-15/K14E-4118/ha/images/logos/barc_logo.jpg</li>
+                                            </ul>
+              </div>
+                              </div> 
+                              
+                              <div class="tab-pane fade text-left pl-3 mb-2" style="line-height: 24px;" id="pop4" role="tabpanel" aria-labelledby="pop4-tab">
+                   <div class="pt-1">
+                    <ul class="urlUsed urllist">
+                                              <li>javascript:void()</li>
+                                            <li>javascript:void()</li>
+                                              <li>javascript:void()</li>
+                                              <li>http://www.google.com</li>
+                                              <li>http://www.barclaycardus.com/servicing/adduser</li>
+                                              <li>http://www.google.com</li>
+                                              <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20' LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON' LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-02[/@trackurl]</li>
+                                              <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20' LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON' LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-03[/@trackurl]</li>
+                                              <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20' LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON' LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-04[/@trackurl]</li>
+                                              <li>tel:123456789</li>
+                                              <li>http://www.barclaycardus.com/servicing/adduser</li>
+                                              <li>https://www.facebook.com/BarclaycardUS</li>
+                                              <li>https://www.twitter.com/BarclaycardUS</li>
+                                              <li>https://www.youtube.com/barclaycardus</li>
+                                              <li>https://plus.google.com/+barclaycardus</li>
+                                              <li>https://instagram.com/barclaycardus/</li>
+                                              </ul>
+                                              
+                  </div>
+              </div>
+              
+            </div>
+        </div>
+        </div>
+      </center>
+    </div>
+</div>
