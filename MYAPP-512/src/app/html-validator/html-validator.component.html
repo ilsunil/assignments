@@ -1,0 +1,38 @@
+<div class="row wrapper">
+	<div class="col-lg-12 col-md-12 col-sm-12">
+		<h5 class="text-left font-weight-bold text-secondary text-uppercase pull-left">
+			<i class="fa fa-wpforms"></i> CS#123456789</h5>
+		<h6 class="text-left text-secondary text-uppercase pull-right" *ngIf="selectedFiles">
+			<span class="text-success">
+				<i class="fa fa-code"></i>{{selectedFiles}}</span></h6>
+
+		<div class="form-group textarea">
+			<div class="linedwrap col-lg-12 px-0" >
+				
+				<div class="col-lg-12 px-0 clearfix" >
+					<div class="button-area" id="menu-toggle">
+						<ngx-dropzone id="exampleInputFile"  [multiple]="false"
+						(filesAdded)="onFilesAdded($event)"
+						[accept]="'text/html,text/css,text/csv,text/xml,text/txt, text/plain, .txt,.csv,.xml,.html'"
+						class="dropbox" [preserveFiles]="false"></ngx-dropzone>
+					</div>
+					<div class="lines col-lg-1 px-0">
+						<div class="codelines" *ngFor="let number of ' ' .repeat(rows).split(''), let i = index">{{i+1}}
+						</div>
+					</div>
+						
+					<textarea class="lined px-0" rows="10" maxLength="textareaLength" id="subject"
+						spellcheck="false" name="subject" style="resize: none; " wrap="off" #subject (scroll)="onScroll($event)">
+					</textarea>
+				</div>
+			</div>
+
+
+
+
+			<!-- <div class="overlaytext overlayarea"></div> -->
+		</div>
+	</div>
+
+
+</div>
