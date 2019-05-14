@@ -1,0 +1,26 @@
+<app-head-banner></app-head-banner>
+
+<app-html-validator></app-html-validator>
+<div class="row m-0" *ngIf="showdeviceDropDown">
+  <!-- <div class="col-md-6">
+    <div class="row pull-left">
+      <button type="button" class="btn btn-secondary trimcode ml-3 mr-2" (click)="trimSpaces()">
+        <i class="fa fa-cut"></i> TRIM CODE </button>
+
+      <button type="button" class="btn btn-secondary clearbutton" (click)="clear()">
+        <i class="fa fa-close"></i> CLEAR </button>
+    </div>
+  </div> -->
+  <div class="col-md-6 text-right">
+    <div class="row pull-right mr-1">
+      <button type="button" class="btn btn-primary validate mr-2" (click)="navigatelink()" >
+        <i class="fa fa-check-square-o"></i> VALIDATE </button>
+
+      <button type="button" class="btn btn-primary preview mr-2" id="preview" disabled="">
+        <i class="fa fa-eye"></i> PREVIEW </button>
+
+      <button type="button" class="btn btn-success download">
+        <i class="fa fa-cloud-download"></i> DOWNLOAD </button>
+    </div>
+  </div>
+</div>

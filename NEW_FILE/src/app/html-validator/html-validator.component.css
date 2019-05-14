@@ -1,0 +1,79 @@
+.dropbox{
+  width: 100%;
+  border:0 none;
+  height: 100%;
+  padding: 0px 40px;
+  background-color: #dddddd;
+}
+.button-area{
+z-index: 2;
+  position: absolute;
+  height: 70vh !important;
+  display: flex;
+  width: 100%;
+}
+
+ngx-dropzone{
+  margin: 0px auto;
+}
+ngx-dropzone:hover {
+  border-style: solid;
+}
+ngx-dropzone .custom-dropzone {
+  height: 250px;
+  background: #333;
+  color: #fff;
+  border: 5px dashed rgb(235, 79, 79);
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+textarea.lined{
+  resize: both;
+  width: calc(100% - 50px);
+font-size: 12px;
+ line-height: 21px;
+ padding-top:10px;
+ border:0 none!important;
+ padding-left: 25px !important;
+ outline: none;
+ bottom: 0;
+ float: right; 
+ top: 0;
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ box-sizing: border-box;
+
+}
+.linedwrap .lines{
+margin-right: 0px;
+text-align: center;
+font-size: 12px;
+line-height: 21px;
+padding:10px 0 0;
+background-color: #fafafa;
+float: left;
+position: absolute;
+height: 70vh;
+overflow: hidden;
+}
+.linedwrap .codelines{
+font-size: 12px;
+line-height: 21px;
+padding: 0;
+}
+.transition{
+  -webkit-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  -moz-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  -ms-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out ;
+  -o-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  margin-left: 1500px;
+  width: 200px;
+  opacity: 0;
+}
+
+.transition{
+  opacity: 100;
+  margin-left: 0;
+}
