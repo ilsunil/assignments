@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, Output, EventEmitter } from '@angular/core';
 import { DataSharedService } from '../shared.service';
 import { SectionNames } from '../common.utils';
 
@@ -8,6 +8,7 @@ import { SectionNames } from '../common.utils';
   styleUrls: ['./html-valid-results.component.css']
 })
 export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
+  title = 'Select/Deselect all errors';
   textAreaValue = this.sharedService.HtmlToValidate;
   htmlValue = this.sharedService.HtmlToValidate;
   parser = new DOMParser().parseFromString(this.htmlValue, 'text/html');
@@ -15,6 +16,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
   htmlSection;
   fileName;
   attrSearchObj;
+  attrSearchObjErrors;
+  attrSearchObjErrorsDisp = [];
   contentSearchObj;
   HTMLSearchObj;
   HTMLSearchImagesObj;
@@ -35,6 +38,9 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.fileName = this.sharedService.FileName;
+// Invoke error value in another file
+  // this.attrSearchObjErrors.emit(this.validateAttribute);
+
     // Invoke the subscribe method to load the HTML sections
     this.sharedService.htmlSectionName.subscribe((secName: string) => {
       switch (secName) {
@@ -73,20 +79,10 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
   //Method to validate the HTML markup section
   validateHtmlmarkup() {
     let htmlValue = this.sharedService.HtmlToValidate;
+    if (!htmlValue) {
+      return;
+    }
     let errorCount = 0;
-    // let htmlValue = '<html lang="en"><head>' +
-    // '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'+
-    // '<meta http-equiv="X-UA-Compatible" content="IE=edge">'+
-    // '<meta name="viewport" content="width=device-width, initial scale=1.0">'+
-    // '<title>Sephora Stores</title></head><body></body>';
-    // let htmlValue = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' +
-    //   '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en"><head>' +
-    //   '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
-    //   '<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
-    //   '<meta name="viewport" content="width=device-width, initial scale=1.0">' +
-    //   '<title>Sephora Stores</title></head>' +
-    //   '<body><div style="width:0px;font-size:0;display:none;">Test</div></body></html>';
-
     var parser = new DOMParser().parseFromString(htmlValue, 'text/html');
     htmlValue = htmlValue.toUpperCase();
     let markupSection = document.getElementById('htmlMarkup');
@@ -188,10 +184,42 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       this.sharedService.markupErrorCount.next(errorCount);
     }
   }
-  // searchResult = ['{"key1":"value1","key2":"value2","key3":"value3"}'];
-
+  // Validation for attibute selection section
   validateAttribute() {
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    if (!myhtmlValue) {
+      return;
+    }
     let errorcount = 0;
+    this.attrSearchObjErrors = [];
+    this.attrSearchObjErrorsDisp = [];
+    const appendLineNos = (arr, htmlValueArr) => {
+      for (let i = 0; i < htmlValueArr.length; i++) {
+        arr.map(item => {
+          const searchItem =
+            typeof item.search === 'string'
+              ? new RegExp(item.search, 'ig')
+              : item.search;
+          const isMatches = htmlValueArr[i].match(searchItem);
+          if (isMatches) {
+            isMatches.map(match => {
+              item.lineNos.push(i + 1);
+              item.lineStr = htmlValueArr[i].substring(0, 30);
+            });
+          }
+        });
+      }
+      arr.map(item => {
+        item.lineNos.map(line => {
+          this.attrSearchObjErrorsDisp.push({
+            line: line,
+            lineStr: item.lineStr,
+            text: item.text,
+            isSelected: false
+          });
+        });
+      });
+    };
     const checkEndTags = (startTagSearch, endTagSearch) => {
       const startTag = this.attrSearchObj.find(
         item => item.search === startTagSearch
@@ -211,40 +239,36 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
         }
       }
     };
-   
+
     this.attrSearchObj = [
-      { search: 'HREF', text: 'HREF="', noError: true },
+      { search: /href/gi, text: 'HREF="', noError: true },
       { search: ' HREF=""', text: 'HREF=""' },
       {
-        search: /HREF\s*=\s*"[A-Z|0-9|:|//|.|-|_]*\s[A-Z|0-9|:|//|.|-|_]*"/g,
+        search: /HREF\s*=\s*"[A-Z|0-9|:|//|.|-|_]*\s[A-Z|0-9|:|//|.|-|_]*"/gi,
         text: 'HREF=" " /%20)'
       },
       { search: 'HREF="#"', text: 'HREF="#', noError: true },
       { search: 'LINKID=""', text: 'LINKID=""' },
       { search: 'HTTTP', text: 'HTTTP' },
-      { search: 'HTTP ', text: 'HTTP (%20)' },
+      // { search: 'HTTP ', text: 'HTTP (%20)' },
       {
         search: 'HTTP://',
         text: 'HTTP://',
-        noError: true,
-        funcs: [checkEndTags.bind(null, 'HTTP://', 'HTTP:/')]
-      },
-      {
-        search: 'HTTP:/',
-        text: 'HTTP:/',
-        noError: true,
-        funcs: [checkEndTags.bind(null, 'HTTP:/', 'HTTP:')]
-      },
-      {
-        search: 'HTTP:',
-        text: 'HTTP:',
         noError: true
-        // funcs: [checkEndTags.bind(null, 'HTTP:', 'HTTP')]
+        // funcs: [checkEndTags.bind(null, 'HTTP://', 'HTTP:/')]
       },
       {
-        search: 'HTTP',
-        text: 'HTTP',
-        noError: true
+        search: /http:\/[^\/]/gi,
+        text: 'HTTP:/'
+      },
+      {
+        search: /http:[^\/]/gi,
+        text: 'HTTP:'
+      },
+      {
+        search: /http[^:]/gi,
+        text: 'HTTP (%20)'
+        // noError: true
       },
       { search: '\\..COM', text: '..COM' },
       { search: ',COM', text: ',COM' },
@@ -269,28 +293,56 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: '<META', text: '<META>', noError: true }
     ];
     // console.log(this.attrSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+    // const myhtmlValue = this.sharedService.HtmlToValidate;
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.attrSearchObj.map(item => {
       if (typeof item.search !== 'string') {
         item.count = ((myhtmlValue || '').match(item.search) || []).length;
+        //console.log(item.count);
       } else {
         item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
+        console.log(item.count);
       }
 
       if (item.count && !item.noError) {
         item.classes = [];
         item.classes.push('errortd');
         errorcount += item.count;
+        item.lineNos = [];
+        this.attrSearchObjErrors.push(item);
       }
     });
     const hasFuncs = this.attrSearchObj.filter(item => item.funcs);
     hasFuncs.map(item => {
       item.funcs.map(func => func());
     });
+    appendLineNos(this.attrSearchObjErrors, myhtmlValue.split('\n'));
+
     this.sharedService.attribErrorsCount.next(errorcount || 0);
+
+    let acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight){
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+      });
+    }
+
   }
+
+
   validateContent() {
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    if (!myhtmlValue) {
+      return;
+    }
     this.contentSearchObj = [
       { search: '<A', text: '<A>' },
       { search: '</A>', text: '</A>' },
@@ -307,8 +359,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'CONVERSION="TRUE"', text: 'CONVERSION="TRUE"' }
     ];
     //  console.log(this.contentSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.contentSearchObj.map(item => {
       item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
       //this.sharedService.attributeErrorsCount.next(item.count);
@@ -333,8 +385,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'IMG', text: 'IMAGE WIDTH > TD' }
     ];
     // console.log(this.HTMLSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.HTMLSearchObj.map(item => {
       item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
       //this.sharedService.attributeErrorsCount.next(item.count);
@@ -356,8 +408,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'BORDER="0"', text: 'BORDER="0"' }
     ];
     // console.log(this.HTMLSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.HTMLSearchImagesObj.map(item => {
       item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
       //this.sharedService.attributeErrorsCount.next(item.count);
@@ -418,7 +470,7 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       return 0;
     }
     re = re === '.' ? '\\' + re : re;
-    var cre = new RegExp(re, 'g');
+    var cre = new RegExp(re, 'ig');
     let count = ((htmlValue || '').match(cre) || []).length;
     //console.log(count);
     return count;

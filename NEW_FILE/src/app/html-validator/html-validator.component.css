@@ -1,16 +1,26 @@
 .dropbox{
   width: 100%;
-  border:0 none;
   height: 100%;
   padding: 0px 40px;
-  background-color: #dddddd;
+  /* background-color: #dddddd; */
+  border: 1px dashed #dddddd;
+
 }
 .button-area{
-z-index: 2;
+/* z-index: 2;
   position: absolute;
   height: 70vh !important;
   display: flex;
-  width: 100%;
+  width: 100%; */
+  z-index: 2;
+    position: relative;
+    height: 20vh !important;
+    display: flex;
+    width: 100%;
+    margin: 30px auto 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 ngx-dropzone{
@@ -38,7 +48,7 @@ font-size: 12px;
  padding-left: 25px !important;
  outline: none;
  bottom: 0;
- float: right; 
+ float: right;
  top: 0;
  -webkit-box-sizing: border-box;
  -moz-box-sizing: border-box;
@@ -62,18 +72,112 @@ font-size: 12px;
 line-height: 21px;
 padding: 0;
 }
-.transition{
-  -webkit-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
-  -moz-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
-  -ms-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out ;
-  -o-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
-  transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
-  margin-left: 1500px;
-  width: 200px;
-  opacity: 0;
+
+.tab-slider--nav ul{
+  margin: 10px auto 30px;
+  padding: 0px;
+  list-style: none;
+  width: 10%;
 }
 
-.transition{
-  opacity: 100;
-  margin-left: 0;
+.tab-slider--nav ul li {
+  display: inline;
+  padding: 10px;
+  margin: 0px;
+  border: 1px solid gray;
+  cursor: pointer;
 }
+.tab-slider--trigger.active{
+  background-color: #79bde8;
+  color: #ffffff;
+}
+
+.divShow{
+  display: block;
+}
+.divHide{
+  display: none;
+}
+
+.line-numbers{
+  position: absolute;
+  width: 3%;
+  overflow: hidden;
+  border-right: 1px solid #c0c0c0;
+  height: 100%;
+  background-color: #fafafa;
+}
+.textarea textarea{
+  height: 50vh !important;
+}
+.flname{
+  padding: 10px 0 0 0;
+}
+.flname_act{
+  width: 10%;
+    overflow: hidden;
+    float: left;
+    padding: 10px 0 0 0;
+    position: absolute;
+}
+
+.form-group.textarea{
+  overflow: hidden;
+}
+.hnsToggle{
+  background-color: transparent;
+  border: 1px solid gray;
+  border-radius: 0px;
+  margin: 0px !important;
+  cursor: pointer;
+  width: 100px;
+}
+.hnsToggle:nth-of-type(1){
+  border-right: none;
+}
+.hnsToggle:nth-of-type(2){
+  border-left: none;
+}
+.hnsToggle.active{
+  background-color: darkgray;
+  color: #ffffff;
+}
+.hnsToggle.active:focus{
+  box-shadow: none;
+}
+textarea[readonly] {background-color: #f1f1f1 !important;}
+
+  .transition{
+    -webkit-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+    -moz-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+    -ms-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out ;
+    -o-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+    transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+    margin-left: 1500px;
+    width: 200px;
+    opacity: 0;
+  }
+
+  .transition{
+    opacity: 100;
+    margin-left: 0;
+  }
+
+  .sectionwrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+  }
+  @keyframes slide-in {
+    100% { transform: translateX(0%); }
+  }
+  @-webkit-keyframes slide-in {
+    100% { -webkit-transform: translateX(0%); }
+  }
+
+
+
+

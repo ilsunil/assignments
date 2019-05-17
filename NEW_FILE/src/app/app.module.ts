@@ -10,10 +10,13 @@ import { HtmlValidMeterComponent } from './html-valid-meter/html-valid-meter.com
 import { HtmlDashboardComponent } from './html-dashboard/html-dashboard.component';
 import { DataSharedService } from './shared.service';
 import { HomeComponent } from './home/home.component';
-import { NgxDropzoneModule} from 'ngx-dropzone';
-import { FormsModule} from '@angular/forms'
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { FormsModule } from '@angular/forms'
 import { HtmlValidResultsComponent } from './html-valid-results/html-valid-results.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonComponent } from './button/button.component';
+import { HtmlToTextService } from './services/html-to-text.service';
+import { ModalComponent } from './modal/modal.component';
+
 
 
 @NgModule({
@@ -25,16 +28,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HtmlValidMeterComponent,
     HtmlDashboardComponent,
     HomeComponent,
-    HtmlValidResultsComponent
+    HtmlValidResultsComponent,
+    ButtonComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgxDropzoneModule,
-    FormsModule,
-    BrowserAnimationsModule
-    ],
-  providers: [DataSharedService],
+    FormsModule
+  ],
+  providers: [DataSharedService, HtmlToTextService],
   bootstrap: [AppComponent],
   schemas: [
     // CUSTOM_ELEMENTS_SCHEMA,

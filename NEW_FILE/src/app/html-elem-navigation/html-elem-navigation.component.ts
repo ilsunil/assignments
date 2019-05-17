@@ -11,7 +11,7 @@ export class HtmlElemNavigationComponent implements OnInit {
   attributeErrorsCount;
   constructor(private sharedService: DataSharedService) { }
 
-  ngOnInit() {    
+  ngOnInit() {
   }
 
   ngAfterViewChecked(){
@@ -31,7 +31,7 @@ export class HtmlElemNavigationComponent implements OnInit {
 
   showResults(sectionName)
   {
-    this.sharedService.htmlSectionName.next(sectionName);    
+    this.sharedService.htmlSectionName.next(sectionName);
   }
 
 }
