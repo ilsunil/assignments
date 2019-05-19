@@ -27,16 +27,34 @@
     <center>
       <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlAttributes"
         *ngIf="htmlSection=='attributes'">
-        <h1>{{fileName}}</h1>
-        <h2>ATTRIBUTES</h2>
-        <div class="col-lg-12 pt-2 pb-2 Attribute">
-          <div *ngFor="let item of attrSearchObj" class="valuesection">
-            <span class="text">{{item.text}}</span>
+        <h1>TOP_LEVEL_ALLMODULES_FINAL.HTML <!--{{fileName}} --></h1>
+        <div class="ErrorSection">
+        <h2>Errors</h2>
+        <div class="Attribute">
+          <div *ngFor="let item of attrSearchObj" class="valuesection" >
+            <div class="text"><span>{{item.text}}</span></div>
             <!-- Revisit -->
             <div class="value">
               <span [ngClass]="item.classes">{{item.count}}</span>
             </div>
           </div>
+          <div class=accordian></div>
+        </div>
+      </div>
+      </div>
+      <!-- <app-html-error-select [attrSearchObjErrors]="attrSearchObjErrors"></app-html-error-select> -->
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-5 p-0 text-left" *ngIf="attrSearchObjErrors"  >
+        <label class="control control--checkbox" >
+            <input type="checkbox" />
+             <span class="font-weight-bold">{{title}}</span>
+              <div class="control__indicator"></div>
+            </label>
+        <div class="form-check pt-3" >
+        <label *ngFor="let item of attrSearchObjErrorsDisp" class="control control--checkbox">
+            <input class="form-check-input" type="checkbox" />
+         <span class="bg-faded textbg rounded" >{{item.text}}</span> - Line {{item.line}}; {{item.lineStr}}...
+         <div class="control__indicator"></div>
+        </label>
         </div>
       </div>
     </center>
@@ -46,15 +64,18 @@
   <div class="bhoechie-tab-content active">
     <center>
       <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='tables'" id="htmlTags">
-        <h1>{{fileName}}</h1>
-        <h2>TABLES</h2>
-        <div class="col-lg-12 pt-2 pb-2 ">
-          <div *ngFor="let item of HTMLSearchObj" class="valuesection">
-            <span class="text">{{item.text}}</span>
-            <!-- Revisit -->
-            <div class="value">
-              <span [ngClass]="{errortd: !item.count}">{{item.count}}</span>
+        <h1>{{filename}}</h1>
+        <div class="ErrorSection">
+          <h2>ERRORS</h2>
+          <div class="tables">
+            <div *ngFor="let item of HTMLSearchObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
             </div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -65,14 +86,17 @@
     <center>
       <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='images'">
         <h1>{{fileName}}</h1>
-        <h2>IMAGES</h2>
-        <div class="col-lg-12 pt-2 pb-2">
-          <div *ngFor="let item of HTMLSearchImagesObj" class="valuesection">
-            <span class="text">{{item.text}}</span>
-            <!-- Revisit -->
-            <div class="value">
-              <span [ngClass]="{errortd: !item.count}">{{item.count}}</span>
+        <div class="ErrorSection">
+          <h2>Errors</h2>
+          <div class="images">
+            <div *ngFor="let item of HTMLSearchImagesObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
             </div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -83,14 +107,18 @@
     <center>
       <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlContent" *ngIf="htmlSection=='content'">
         <h1>{{fileName}}</h1>
-        <h2>CONTENT</h2>
-        <div class="col-lg-12 pt-2 pb-2">
-          <div *ngFor="let item of contentSearchObj" class="valuesection">
-            <span class="text">{{item.text}}</span>
-            <!-- Revisit -->
-            <div class="value">
-              <span [ngClass]="{errortd: !item.count}">{{item.count}}</span>
+
+        <div class="ErrorSection">
+          <h2>Errors</h2>
+          <div class="content">
+            <div *ngFor="let item of contentSearchObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
             </div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -99,9 +127,9 @@
 
   <div class="bhoechie-tab-content active">
     <center>
-      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='tools'">
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='info'">
         <h1>Creative_P2_BizBox_remarketing_email.html</h1>
-        <h2>TOOLS</h2>
+        <h2>INFO</h2>
         <div class="col-md-12 text-center" style="width: 76%">
           <nav class="nav-justified ">
             <div class="nav nav-tabs " id="nav-tab" role="tablist">
@@ -198,4 +226,27 @@
       </div>
     </center>
   </div>
+
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlContent" *ngIf="htmlSection=='fix'">
+        <h1>{{fileName}}</h1>
+
+        <div class="ErrorSection">
+          <h2>Errors</h2>
+          <div class="content">
+            <div *ngFor="let item of contentSearchObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
 </div>
+

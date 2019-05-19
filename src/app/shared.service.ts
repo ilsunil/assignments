@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DataSharedService {
-    
+
     private htmlToValidate;
     private filename;
 
@@ -12,7 +12,8 @@ export class DataSharedService {
 
     markupErrorCount: BehaviorSubject<number> = new BehaviorSubject(-1);
     attribErrorsCount: BehaviorSubject<number> = new BehaviorSubject(-1);
-    
+    myServices: BehaviorSubject<string> = new BehaviorSubject('');
+
     set FileName(value: any) {
         this.filename = value;
     }
