@@ -10,9 +10,15 @@ import { HtmlValidMeterComponent } from './html-valid-meter/html-valid-meter.com
 import { HtmlDashboardComponent } from './html-dashboard/html-dashboard.component';
 import { DataSharedService } from './shared.service';
 import { HomeComponent } from './home/home.component';
-import { NgxDropzoneModule} from 'ngx-dropzone';
-import { FormsModule} from '@angular/forms'
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { FormsModule } from '@angular/forms'
 import { HtmlValidResultsComponent } from './html-valid-results/html-valid-results.component';
+import { ButtonComponent } from './button/button.component';
+import { HtmlToTextService } from './services/html-to-text.service';
+import { ModalComponent } from './modal/modal.component';
+import { HtmlValidatorFooterComponent } from './html-validator-footer/html-validator-footer.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 
@@ -25,15 +31,19 @@ import { HtmlValidResultsComponent } from './html-valid-results/html-valid-resul
     HtmlValidMeterComponent,
     HtmlDashboardComponent,
     HomeComponent,
-    HtmlValidResultsComponent
+    HtmlValidResultsComponent,
+    ButtonComponent,
+    ModalComponent,
+    HtmlValidatorFooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgxDropzoneModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
-  providers: [DataSharedService],
+  providers: [DataSharedService, HtmlToTextService],
   bootstrap: [AppComponent],
   schemas: [
     // CUSTOM_ELEMENTS_SCHEMA,

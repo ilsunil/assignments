@@ -1,23 +1,54 @@
-import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { DataSharedService } from '../shared.service';
 import { SectionNames } from '../common.utils';
+import { HtmlValidatorComponent } from '../html-validator/html-validator.component';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { eventNames } from 'cluster';
 
 @Component({
   selector: 'app-html-valid-results',
   templateUrl: './html-valid-results.component.html',
-  styleUrls: ['./html-valid-results.component.css']
+  styleUrls: ['./html-valid-results.component.css'],
+  animations: [
+    trigger('slideDown', [
+      state('initial', style({
+        overflow: 'hidden',
+        height: '15em'
+      })),
+      state('final', style({
+        overflow: 'hidden',
+        height: '*'
+      })),
+      transition('initial=>final', animate('600ms')),
+      transition('final=>initial', animate('400ms'))
+    ]),
+    trigger('iconTrigger', [
+      state('initial', style({ transform: 'rotate(0deg)' })),
+      state('final', style({ transform: 'rotate(-180deg)' })),
+      transition('initial => final', animate('200ms ease-in')),
+      transition('final => initial', animate('200ms ease-out'))
+  ])
+  ]
 })
 export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
+  title = 'Select/Deselect all errors';
   textAreaValue = this.sharedService.HtmlToValidate;
   htmlValue = this.sharedService.HtmlToValidate;
   parser = new DOMParser().parseFromString(this.htmlValue, 'text/html');
-
+  isInitialized = false;
   htmlSection;
   fileName;
   attrSearchObj;
+  attrSearchObjErrors;
+  attrSearchObjErrorsDisp = [];
+  selectAllBtn = true;
   contentSearchObj;
   HTMLSearchObj;
   HTMLSearchImagesObj;
+  currentState = 'initial';
+  initial = false;
+
+
   statusClassNames = {
     available: 'fa fa-check-square',
     unavailable: 'fa fa-window-close markupError'
@@ -31,12 +62,23 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
     red: 'bg-danger w-25 text-white rounded mt-3 mb-3 pt-2 pb-2'
   };
 
-  constructor(private sharedService: DataSharedService) { }
+  constructor(
+    private sharedService: DataSharedService,
+    private HtmlValidatorComponent: HtmlValidatorComponent, private elementRef: ElementRef, private render: Renderer ) {}
 
   ngOnInit() {
-    this.fileName = this.sharedService.FileName;
+
+// Invoke error value in another file
+  // this.attrSearchObjErrors.emit(this.validateAttribute);
+
     // Invoke the subscribe method to load the HTML sections
     this.sharedService.htmlSectionName.subscribe((secName: string) => {
+      const lineNums = this.attrSearchObjErrorsDisp.map(item => item.line -1);
+      this.setErrColorsToLines(
+        null,
+        lineNums,
+        secName === SectionNames.attributes
+      );
       switch (secName) {
         case SectionNames.attributes:
           this.htmlSection = SectionNames.attributes;
@@ -50,10 +92,12 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
         case SectionNames.content:
           this.htmlSection = SectionNames.content;
           break;
-        case SectionNames.tools:
-          this.htmlSection = SectionNames.tools;
+        case SectionNames.info:
+          this.htmlSection = SectionNames.info;
           break;
-        case SectionNames.markup:
+          case SectionNames.fix:
+          this.htmlSection = SectionNames.fix;
+          break;
         default:
           this.htmlSection = SectionNames.markup;
           break;
@@ -63,30 +107,25 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     // Invoke this method when DOM is ready
-    this.validateHtmlmarkup();
-    this.validateAttribute();
-    this.validateContent();
-    this.validateHTMLTAGS();
-    this.validateHTMLIMAGES();
+    if (!this.isInitialized && this.sharedService.HtmlToValidate) {
+      this.fileName = this.sharedService.FileName;
+
+      this.validateHtmlmarkup();
+      this.validateAttribute();
+      this.validateContent();
+      this.validateHTMLTAGS();
+      this.validateHTMLIMAGES();
+      this.isInitialized = true;
+     }
   }
 
   //Method to validate the HTML markup section
   validateHtmlmarkup() {
     let htmlValue = this.sharedService.HtmlToValidate;
+    if (!htmlValue) {
+      return;
+    }
     let errorCount = 0;
-    // let htmlValue = '<html lang="en"><head>' +
-    // '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'+
-    // '<meta http-equiv="X-UA-Compatible" content="IE=edge">'+
-    // '<meta name="viewport" content="width=device-width, initial scale=1.0">'+
-    // '<title>Sephora Stores</title></head><body></body>';
-    // let htmlValue = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' +
-    //   '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html lang="en"><head>' +
-    //   '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
-    //   '<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
-    //   '<meta name="viewport" content="width=device-width, initial scale=1.0">' +
-    //   '<title>Sephora Stores</title></head>' +
-    //   '<body><div style="width:0px;font-size:0;display:none;">Test</div></body></html>';
-
     var parser = new DOMParser().parseFromString(htmlValue, 'text/html');
     htmlValue = htmlValue.toUpperCase();
     let markupSection = document.getElementById('htmlMarkup');
@@ -188,13 +227,56 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       this.sharedService.markupErrorCount.next(errorCount);
     }
   }
-  // searchResult = ['{"key1":"value1","key2":"value2","key3":"value3"}'];
-
+  // Validation for attibute selection section
   validateAttribute() {
+    // INVOKE constructor myhtmlvalue to check whether file is loaded or not
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    if (!myhtmlValue) {
+      return;
+    }
     let errorcount = 0;
+    this.attrSearchObjErrors = [];
+    this.attrSearchObjErrorsDisp = [];
+    // INVOKE FUNCTION appendLineNos ERRORS TO IDENTIFY THE NUMBER OF LINES ONCE CHEKCED
+
+    const appendLineNos = (arr, htmlValueArr) => {
+      for (let i = 0; i < htmlValueArr.length; i++) {
+        arr.map(item => {
+          const searchItem =
+            typeof item.search === 'string'
+              ? new RegExp(item.search, 'ig')
+              : item.search;
+          const isMatches = htmlValueArr[i].match(searchItem);
+          if (isMatches) {
+            isMatches.map(match => {
+              item.lineNos.push(i + 1);
+              item.lineStr = htmlValueArr[i].substring(0, 30);
+            });
+          }
+        });
+      }
+          // MAPPING ARRAY BY GETTING DYNAMICA DATA AND BIND WITH THE HTML
+
+      arr.map(item => {
+        item.lineNos.map(line => {
+          this.attrSearchObjErrorsDisp.push({
+            line,
+            lineStr: item.lineStr,
+            text: item.text,
+            isSelected: true
+          });
+        });
+      });
+    };
+        // CONSTRUCT FUNCTION TO CHECK ERRORS USING START AND END TAG
+
     const checkEndTags = (startTagSearch, endTagSearch) => {
-      const startTag = this.attrSearchObj.find(item => item.search === startTagSearch);
-      const endTag = this.attrSearchObj.find(item => item.search === endTagSearch);
+      const startTag = this.attrSearchObj.find(
+        item => item.search === startTagSearch
+      );
+      const endTag = this.attrSearchObj.find(
+        item => item.search === endTagSearch
+      );
       if (startTag && endTag) {
         if (startTag.count > endTag.count) {
           startTag.classes = startTag.classes || [];
@@ -207,47 +289,37 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
         }
       }
     };
-    const checkSpace = (specifictag) => {
-      const startTag = this.attrSearchObj.find(item => item.search === specifictag);
-      // const endTag = this.attrSearchObj.find(item => item.search === endTagSearch);
-      var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-      console.log(regex.test(startTag));
+        // PAIRING KEYVALUE TO CHECK THE LIST OF ERRORS IN THE HTML ATTRIBUTES FILE
 
-      if (!regex .test(startTag)) {
-        startTag.classes = [];
-        startTag.classes.push('errortd');
-        errorcount += startTag.count;
-      } else{
-        return true;
-      }
-    };
     this.attrSearchObj = [
-      { search: 'HREF', text: 'HREF="', noError: true },
+      { search: /href/gi, text: 'HREF="', noError: true },
       { search: ' HREF=""', text: 'HREF=""' },
-      { search: 'HREF=" "', text: 'HREF=" " /%20)', funcs: [checkSpace.bind(null, 'HREF=" "')] },
-      { search: 'HREF="#"', text: 'HREF="#', noError: true  },
+      {
+        search: /http[^:]\HREF\s*=\s*"[A-Z|0-9|:|//|.|-|_]*\s[A-Z|0-9|:|//|.|-|_]*"/gi,
+        text: 'HREF=" " /%20)'
+      },
+      { search: 'HREF="#"', text: 'HREF="#', noError: true },
       { search: 'LINKID=""', text: 'LINKID=""' },
       { search: 'HTTTP', text: 'HTTTP' },
-      { search: 'HTTP ', text: 'HTTP (%20)' },
+      // { search: 'HTTP ', text: 'HTTP (%20)' },
       {
         search: 'HTTP://',
         text: 'HTTP://',
         noError: true
+        // funcs: [checkEndTags.bind(null, 'HTTP://', 'HTTP:/')]
       },
       {
-        search: 'HTTP:/',
-        text: 'HTTP:/',
-        noError: true,
-             },
-      {
-        search: 'HTTP:',
-        text: 'HTTP:',
-        noError: true,
+        search: /http:\/[^\/]/gi,
+        text: 'HTTP:/'
       },
       {
-        search: 'HTTP',
-        text: 'HTTP',
-        noError: true,
+        search: /http:[^\/]/gi,
+        text: 'HTTP:'
+      },
+      {
+        search: 'HTTP ',
+        text: 'HTTP (%20)'
+        // noError: true
       },
       { search: '\\..COM', text: '..COM' },
       { search: ',COM', text: ',COM' },
@@ -269,26 +341,105 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'HTML>', text: 'HTML>', noError: true },
       { search: '<!DOCTYPE', text: '<!DOCTYPE', noError: true },
       { search: 'HEAD>', text: 'HEAD>', noError: true },
-      { search: '<META', text: '<META>', noError: true }
+      { search: '<META', text: '<META>', noError: true },
+      {
+        search: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gi,
+       text: 'URL="%20")'
+      }
     ];
-    // console.log(this.attrSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+// MAPPING THE ATTIBUTE CODE AND BINDING THE VALUE WITH THE HTML FILE
     this.attrSearchObj.map(item => {
-      item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
+      if (typeof item.search !== 'string') {
+        item.count = ((myhtmlValue || '').match(item.search) || []).length;
+      } else {
+        item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
+      }
+// CHECK COUNT AND PUSH THE ERROR VALUE TO THE HTML VALUES
+
       if (item.count && !item.noError) {
         item.classes = [];
         item.classes.push('errortd');
         errorcount += item.count;
+        item.lineNos = [];
+        this.attrSearchObjErrors.push(item);
       }
     });
+    // FILTER THE ELEMENT ONCE THE VALUES ARE APPENDED
+
     const hasFuncs = this.attrSearchObj.filter(item => item.funcs);
     hasFuncs.map(item => {
       item.funcs.map(func => func());
     });
+    appendLineNos(this.attrSearchObjErrors, myhtmlValue.split('\n'));
     this.sharedService.attribErrorsCount.next(errorcount || 0);
   }
+// INVOKE FUNCTION FOR ALL CHECKBOXES EVENT on CHECKED OF CHECKBOX
+  htmlAttrErrorClicked(evt, i) {
+    if (evt.target.tagName === 'INPUT') {
+      const item = this.attrSearchObjErrorsDisp[i];
+      item.isSelected = !item.isSelected;
+      this.setErrColorsToLines(item.line - 1, null, item.isSelected);
+
+      this.selectAllBtn =
+        this.attrSearchObjErrorsDisp.filter(item => item.isSelected).length ===
+        this.attrSearchObjErrorsDisp.length;
+    }
+  }
+// INVOKE FUNCTION Selectall ERRORS EVENT on CHECKED OF CHECKBOX
+  selectAllErrors(evt) {
+    const isChecked = evt.target.checked;
+    const lineNums = this.attrSearchObjErrorsDisp.map(item => {
+      item.isSelected = isChecked;
+      return item.line - 1;
+    });
+    this.setErrColorsToLines(null, lineNums, isChecked);
+    this.selectAllBtn = isChecked;
+  }
+  changeState(divName: string, i) {
+    this.currentState = this.currentState === 'initial' ? 'final' : 'initial';
+    this.initial = !this.initial;
+  }
+  htmlTextErrorClicked(evt, i) {
+    let oldClass = evt.target.getAttribute('class');
+    if (evt.target.tagName === 'DIV') {
+      const item = this.attrSearchObjErrorsDisp[i];
+      item.isSelected = !item.isSelected;
+      this.setErrColorsToLines(item.line - 1, null, item.isSelected);
+    }
+    if (oldClass == null) {
+      oldClass = '';
+      this.render.setElementAttribute(evt.target, "class", oldClass + 'overselected');
+    } else if (oldClass.includes('overselected')) {
+      oldClass = oldClass.replace('overselected', '')
+      this.render.setElementAttribute(evt.target, "class", oldClass);
+    } else {
+      this.render.setElementAttribute(evt.target, "class", oldClass + ' overselected');
+    }
+  }
+  setErrColorsToLines(lineNum, lineNums, showErr) {
+    if(this.sharedService.htmlValueSplitted && lineNum){
+     const line = this.sharedService.htmlValueSplitted.find(
+       item => item.id === lineNum
+      );
+      line.isErr = showErr;
+    }
+    if(this.sharedService.htmlValueSplitted && lineNums){
+      const lines = this.sharedService.htmlValueSplitted.filter(
+        item => lineNums.includes(item.id)
+       );
+       lines.map(line => {
+         line.isErr = showErr;
+       })
+
+     }
+
+  }
+
   validateContent() {
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    if (!myhtmlValue) {
+      return;
+    }
     this.contentSearchObj = [
       { search: '<A', text: '<A>' },
       { search: '</A>', text: '</A>' },
@@ -305,8 +456,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'CONVERSION="TRUE"', text: 'CONVERSION="TRUE"' }
     ];
     //  console.log(this.contentSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.contentSearchObj.map(item => {
       item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
       //this.sharedService.attributeErrorsCount.next(item.count);
@@ -325,14 +476,14 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: '</SPAN>', text: '</SPAN>' },
       { search: '<SUP', text: '<SUP>' },
       { search: '</SUP>', text: '</SUP>' },
-      { search: '\\[IF', text: '<--[IF' },
+      { search: '<\\!\\-\\-\\[IF', text: '<--[IF' },
       { search: '[ENDIF]-->', text: '[ENDIF]-->' },
       { search: 'WIDTH=', text: 'WIDTH=' },
       { search: 'IMG', text: 'IMAGE WIDTH > TD' }
     ];
     // console.log(this.HTMLSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.HTMLSearchObj.map(item => {
       item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
       //this.sharedService.attributeErrorsCount.next(item.count);
@@ -354,8 +505,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'BORDER="0"', text: 'BORDER="0"' }
     ];
     // console.log(this.HTMLSearchObj);
-    const htmlValue = this.sharedService.HtmlToValidate;
-    const myhtmlValue = htmlValue.toUpperCase();
+    const myhtmlValue = this.sharedService.HtmlToValidate;
+    // const myhtmlValue = htmlValue.toUpperCase();
     this.HTMLSearchImagesObj.map(item => {
       item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
       //this.sharedService.attributeErrorsCount.next(item.count);
@@ -416,7 +567,7 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       return 0;
     }
     re = re === '.' ? '\\' + re : re;
-    var cre = new RegExp(re, 'g');
+    var cre = new RegExp(re, 'ig');
     let count = ((htmlValue || '').match(cre) || []).length;
     //console.log(count);
     return count;

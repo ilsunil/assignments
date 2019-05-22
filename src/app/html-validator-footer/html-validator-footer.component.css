@@ -1,0 +1,8 @@
+.border-right{
+  border-right: 2px solid #fff;
+}
+.btn-primary{
+  text-align: right!important;
+  padding:0;
+  float:right;
+}

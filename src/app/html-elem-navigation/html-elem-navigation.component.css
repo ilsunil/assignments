@@ -2,12 +2,6 @@
   color:#fff;
   background: none !important;
 }
-
-.error-lines{
-  background: red;
-  color: white;
-}
-
 .transition{
   -webkit-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
   -moz-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
@@ -52,11 +46,11 @@
 .control input:focus ~ .control__indicator {
   background: #ccc;
 }
-.control input[checked="true"] ~ .control__indicator {
+.control input:checked ~ .control__indicator {
   background: #333333;
 }
-.control:hover input:not([disabled])[checked="true"] ~ .control__indicator,
-.control input[checked="true"]:focus ~ .control__indicator {
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
   background: #797979;
 }
 .control input:disabled ~ .control__indicator {
@@ -69,7 +63,7 @@
   position: absolute;
   display: none;
 }
-.control input[checked="true"] ~ .control__indicator:after {
+.control input:checked ~ .control__indicator:after {
   display: block;
 }
 .control--checkbox .control__indicator:after {
@@ -89,38 +83,22 @@
   display: inline-block;
   width:9em;
   padding: .2em .8em;
-  pointer-events: none;
-  color:#333;
 }
 .ErrorSection{
-  position: relative;
-  padding-bottom: 3.5em;
+  height: 20em;
+  overflow-y: scroll;
 }
-.collapse{
-  width: 100%;
+.list-group-item{
   display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #ccc;
-  color: #333;
-  border: 0 none;
-  border-radius: 0%;
+  cursor: pointer;
 }
-.overselected{
-  background: #222;
-  transition: all 2s ease;
-  color:#fff;
+.list-group-item:hover{
+  background-color: #87c9f3;
+  box-shadow: inset 4px -38px 44px 16px #87c9f3;
 }
-.drop-shadow {
-  -webkit-box-shadow: 0 0 3px 0px rgba(0, 0, 0, .2);
-  box-shadow: 0 0 3px 0px rgba(0, 0, 0, .2);
-  border-radius:5px;
-  margin:0;
-  padding:0;
+.list-group-item span{
+  pointer-events: none;
 }
-.container .drop-shadow {
-  padding-left:0;
-  padding-right:0;
+.list-group-item i{
+  pointer-events: none;
 }

@@ -5,5 +5,6 @@ export enum SectionNames
     tables = 'tables',
     images = 'images',
     content = 'content',
-    tools = 'tools'
+    info = 'info',
+    fix = 'fix'
 }
