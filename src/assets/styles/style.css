@@ -1291,28 +1291,25 @@ body, html {
 	background-color: #000;
 	border-radius: .25rem
 }
+.ErrorSection{
+	background-color: #5b5d6e;
+	color:#ffffff;
+	text-align: left;
+	padding : 2rem 5rem 2rem 2rem;
+}
 .dashboardcontent {
-	border: 5px solid #f1f3f9;
+	/* border: 5px solid #f1f3f9;
 	-webkit-border-radius: 16px;
 	-moz-border-radius: 16px;
-	border-radius: 16px;
+	border-radius: 16px; */
 	padding-left: 0;
 	padding-right: 0;
 }
 .dashboardcontent h2 {
-	background: rgba(216,218,224,1);
-	background: -moz-linear-gradient(left, rgba(216,218,224,1) 0%, rgba(242,244,250,1) 100%);
-	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(216,218,224,1)), color-stop(100%, rgba(242,244,250,1)));
-	background: -webkit-linear-gradient(left, rgba(216,218,224,1) 0%, rgba(242,244,250,1) 100%);
-	background: -o-linear-gradient(left, rgba(216,218,224,1) 0%, rgba(242,244,250,1) 100%);
-	background: -ms-linear-gradient(left, rgba(216,218,224,1) 0%, rgba(242,244,250,1) 100%);
-	background: linear-gradient(to right, rgba(216,218,224,1) 0%, rgba(242,244,250,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8dae0', endColorstr='#f2f4fa', GradientType=1 );
 	font-size: 19px;
-	color: #5b5d6e;
-	padding: 12px 0;
-	font-weight: bold;
+ font-weight: bold;
 	margin-bottom: 0px;
+	text-transform: uppercase;
 }
 .dashboardcontent h1 {
 	font-size: 19px;
@@ -1654,40 +1651,39 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8dae0', end
 	padding: 12px 20px;
 	cursor: pointer;
 }
-.valuesection {
+.valuesection{
+	display: flex;
+}
+.text, .value {
 	display: inline-block;
-	margin: 5px 5px 5px 0;
-	background: #fcfbfb;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	min-width: 140px;
-}
-.valuesection span.text {
-	padding: 4px;
-	display: block;
-}
-.valuesection .value {
-	background: #ebebeb;
 	padding: 8px 0;
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	-moz-border-radius-bottomright: 5px;
-	-moz-border-radius-bottomleft: 5px;
-	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
-.valuesection .value span {
-	background: #ffffff;
-	width: 80px;
-	display: block;
+	width: 50%;
+	}
+.value{
 	padding: 1px 0px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	text-align: right;
 	font-size: 15px;
 	font-weight: bold;
-	color: #7a7a7a;
+}
+.text{
+	position: relative;
+}
+
+.text span {
+ display: inline-block;
+}
+.text:after {
+	content:"";
+	position: absolute;
+	bottom: 0;
+	left: 62%;
+	right: auto;
+	padding-left: 4em;
+	height: 0.5em;
+	top: 1.2em;
+	border-top: 3px dashed #969595;
+	z-index: 0;
+	width:100%;
 }
 .valuesection .value .errortd {
 	background: #ff6464;
@@ -1715,7 +1711,12 @@ div.bhoechie-tab-menu div.list-group > a span.notification {
 	display: inline-block;
 	margin: 18px 70px 3px 40px;
 }
-
+.dropzone{
+  height: 100% !important;
+}
+.dropzone > p{
+  margin: 10px !important;
+  }
 .overlayarea {
 	opacity: 0.2;
 	background: #cccccc url("../images/201609_E2V_09.png");
@@ -1846,4 +1847,70 @@ div.bhoechie-tab-menu div.list-group > a span.notification {
 /* for the dropzone height */
 .dropzone{
   height: 100% !important;
+}
+.dropzone > p{
+  margin: 10px !important;
+}
+.wrap{
+  width: 100%;
+  height: 100%;
+  padding: 3% 0;
+}
+.wrap .lhs{
+  float: left;
+  width: 15%;
+}
+.wrap .lhs i{
+  font-size: 40px;
+  float: left;
+}
+.wrap .lhs p{
+  padding: 10px 0 0 0;
+}
+.wrap .rhs{
+  float: right;
+  font-weight: bold;
+}
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+}
+.footer_wrapper {
+  position: sticky;
+  bottom: 0;
+  background-color: #292b2c;
+  display: block;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align:center;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.code-area{
+background-color: #fafafa;
+margin: 0;
+list-style-type:none;
+list-style: none;
+counter-reset: item;
+
+}
+.code-area li{
+  background: #ffffff;
+  padding: 0.06em;
+  margin: 0 0.6em;
+ border-left:1px solid #e5e5e5;
+ cursor:not-allowed;
+ counter-increment: item;
+
+  }
+.code-area li::before {
+  content: counter(item);
+  margin-left: -45px;
+  margin-right: 34px;
+  text-align:right;
 }
