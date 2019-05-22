@@ -1,0 +1,79 @@
+
+<div class="sectionwrapper" id="mywrapper">
+  <div  style="display: none" id="slide_left">
+    <app-html-elem-navigation></app-html-elem-navigation>
+    <app-html-valid-results></app-html-valid-results>
+    </div>
+
+  <div class="row wrapper" id="text_area">
+    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+      <!-- <h5 class="text-left font-weight-bold text-secondary text-uppercase pull-left">
+        <i class="fa fa-wpforms"></i> CS#123456789</h5> -->
+      <div *ngIf="isData; else fileName" class="pull-left">
+        <!-- <h6 class="flname">Filename.html</h6> -->
+      </div>
+      <ng-template #fileName>
+        <div>
+          <h6 class="text-left flname_act" *ngIf="selectedFiles">
+            <!-- <i class="fa fa-code"></i> -->
+            {{selectedFiles}}</h6>
+        </div>
+      </ng-template>
+
+      <!-- buttons on the top -->
+      <button class="btn mr-2 hnsToggle active" (click)="showCode()" id="code" [disabled]="isdisabled">Code</button>
+      <button class="btn mr-2 hnsToggle" (click)="showHtml()" id="preview" [disabled]="isdisabled">Preview</button>
+
+      <!-- preview area -->
+      <div id="pvArea"></div>
+
+      <!-- Code area -->
+      <div id="codeArea">
+        <div class="form-group textarea" *ngIf="!showFirst">
+          <div class="linedwrap col-lg-12 px-0">
+
+            <div class="col-lg-12 px-0 clearfix">
+
+<ol class="code-area">
+<li *ngFor="let item of sharedService.htmlValueSplitted; trackBy: trackByFn" [ngClass]="{'err-line': item.isErr}">
+<span>{{item.text}}</span>
+</li>
+</ol>
+
+              <!-- <div class="line-numbers" *ngIf="isData; else shNum">
+                <div *ngFor="let item of showNumber(lineNum); let i = index">{{i+1}}</div>
+              </div>
+              <ng-template #shNum>
+                <div class="lines col-lg-1 px-0">
+                  <div #codeLines class="codelines" *ngFor="let number of ' ' .repeat(rows).split(''), let i = index" scrollTracker>
+                    {{i+1}}
+                  </div>
+                </div>
+              </ng-template>
+
+              <textarea class="lined px-0" rows="10" maxLength="textareaLength" id="subject" spellcheck="false"
+                name="subject" style="resize: none; " wrap="off" #subject (scroll)="onScroll($event)" readonly>
+              </textarea> -->
+
+            </div>
+          </div>
+          <!-- <div class="overlaytext overlayarea"></div> -->
+        </div>
+        <div [ngClass]="{'hideUpload': true}">
+        <h6 class="text-left">File Upload</h6>
+        <div class="button-area" id="menu-toggle">
+
+          <!-- dropzone package -->
+          <ngx-dropzone id="exampleInputFile" [multiple]="false" (filesAdded)="onFilesAdded($event)"
+            [accept]="'text/html,text/css,text/csv,text/xml,text/txt, text/plain, .txt,.csv,.xml,.html'" class="dropbox"
+            [preserveFiles]="false" [label]="'Drag and Drop or Browse Files || UPLOAD'">
+          </ngx-dropzone>
+        </div>
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>

@@ -1,0 +1,257 @@
+<div class="col-lg-10 col-md-9 col-sm-9 col-xs-9 bhoechie-tab pull-left">
+  <!-- flight section -->
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlMarkup" *ngIf="htmlSection=='markup'">
+        <h1>{{fileName}}</h1>
+        <h2>HTML MARKUP</h2>
+        <div class="col-lg-12 pt-2 pb-2 HTMLmarkup">
+          <span>HTML <i aria-hidden="true"></i> </span>
+          <span>HEAD <i aria-hidden="true"></i> </span>
+          <span>TITLE <i aria-hidden="true"></i> </span>
+          <span>CONTENT TYPE <i aria-hidden="true"></i> </span>
+          <span>BODY <i aria-hidden="true"></i> </span>
+          <span>LANGUAGE <i aria-hidden="true"></i> </span>
+          <span>HIDDEN PRE-HEADER <i aria-hidden="true"></i> </span>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+  <!-- train section -->
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlAttributes"
+        *ngIf="htmlSection=='attributes'">
+        <h1>{{fileName}}</h1>
+        <div class="ErrorSection" [@slideDown]=currentState>
+          <h2>Errors</h2>
+          <div class="Attribute">
+            <div *ngFor="let item of attrSearchObj" class="valuesection">
+              <ng-container *ngIf="!item.noError && item.count" >
+                <div class="text"><span>{{item.text}}</span></div>
+                <!-- Revisit -->
+                <div class="value">
+                  <span [ngClass]="item.classes">{{item.count}}</span>
+                </div>
+              </ng-container>
+            </div>
+            <button type="button" class="btn btn-outline-primary" [ngClass]="{'collapse': true}" (click)="changeState('changeEvent')"><i [@iconTrigger]="currentState" class="fa fa-angle-double-down fa-2x" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <app-html-error-select [attrSearchObjErrors]="attrSearchObjErrors"></app-html-error-select> -->
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-5 p-0 text-left" *ngIf="htmlSection=='attributes' && attrSearchObjErrors">
+        <label class="control control--checkbox">
+          <input type="checkbox" checked="true" [attr.checked]="selectAllBtn" (change)="selectAllErrors($event)">
+          <span class="font-weight-bold">{{title}}</span>
+          <div class="control__indicator"></div>
+        </label>
+        <div class="form-check p-2 mb-2 d-inline-flex col-12 container drop-shadow " *ngFor="let item of attrSearchObjErrorsDisp; let i = index" >
+          <label class="control control--checkbox">
+            <input class="form-check-input" type="checkbox" [attr.checked]="item.isSelected"  (click)="htmlAttrErrorClicked($event, i)" >
+            <div class="control__indicator"></div>
+          </label>
+          <div [attr.checked]="item.isSelected" class="col mr-0 rounded" [ngClass]="{active: htmlTextErrorClicked, checked: true}"  (click)="htmlTextErrorClicked($event, i)"  >
+          <span class="bg-faded textbg rounded">{{item.text}}</span> - Line {{item.line}}; {{item.lineStr}}...
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+  <!-- hotel search -->
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='tables'" id="htmlTags">
+        <h1>{{filename}}</h1>
+        <div class="ErrorSection">
+          <h2>ERRORS</h2>
+          <div class="tables">
+            <div *ngFor="let item of HTMLSearchObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='images'">
+        <h1>{{fileName}}</h1>
+        <div class="ErrorSection">
+          <h2>Errors</h2>
+          <div class="images">
+            <div *ngFor="let item of HTMLSearchImagesObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlContent" *ngIf="htmlSection=='content'">
+        <h1>{{fileName}}</h1>
+
+        <div class="ErrorSection">
+          <h2>Errors</h2>
+          <div class="content">
+            <div *ngFor="let item of contentSearchObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='info'">
+        <h1>Creative_P2_BizBox_remarketing_email.html</h1>
+        <h2>INFO</h2>
+        <div class="col-md-12 text-center" style="width: 76%">
+          <nav class="nav-justified ">
+            <div class="nav nav-tabs " id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="pop1-tab" data-toggle="tab" href="#pop1" role="tab"
+                aria-controls="pop1" aria-selected="true">HTML TO TEXT CONVERT</a>
+              <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2" role="tab" aria-controls="pop2"
+                aria-selected="false">FONT-FAMILY</a>
+              <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3" role="tab" aria-controls="pop3"
+                aria-selected="false">IMAGE PATHS</a>
+              <a class="nav-item nav-link" id="pop4-tab" data-toggle="tab" href="#pop4" role="tab" aria-controls="pop4"
+                aria-selected="false">URL'S USED</a>
+
+            </div>
+          </nav>
+          <div class="tab-content mt-3" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="pop1" role="tabpanel" aria-labelledby="pop1-tab">
+              <div class="pt-3"> <button type="button" class="btn btn-primary validate mr-2"> <i
+                    class="fa fa-file-text"></i>&nbsp; CONVERT TO TEXT </button>
+              </div>
+              <p><textarea rows="12" cols="24" class="w-100 mt-3"
+                  style="margin-top: 16px; margin-bottom: 0px; height: 282px;"></textarea></p>
+
+            </div>
+            <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
+              <div class="pt-1 mb-4">
+                <blockquote class="quote-card blue-card">
+                  <span class="fontsUsed">"Times New Roman"<br>Arial, Helvetica, sans-serif<br>Tahoma, Geneva, Arial,
+                    Helvetica, sans-serif<br>Tahoma, Geneva, sans-serif</span>
+                </blockquote>
+
+              </div>
+            </div>
+            <div class="tab-pane fade  text-left pl-3 mb-2" style="line-height: 20px;" id="pop3" role="tabpanel"
+              aria-labelledby="pop3-tab">
+              <div class="pt-1">
+                <ul class="imgPath imagelist">
+                  <li>http://images.bfi0.com/creative/2016/barclaycard/05-16/0375/img/card-fpo.jpg</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/padlock.gif</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/billboards/aa2_au.jpg</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_multi.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_add.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_spread.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/buttons/add_user_aa2.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/facebook.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/twitter.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/youtube.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/google_plus.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/instagram.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/appStore.png</li>
+                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/googlePlay.png</li>
+                  <li>http://images.bfi0.com/creative/2016/barclaycard/05-16/0375/img/aadvantage-logo.jpg</li>
+                  <li>http://images.bfi0.com/creative/2015/barclaycard/07-15/K14E-4118/ha/images/logos/barc_logo.jpg
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tab-pane fade text-left pl-3 mb-2" style="line-height: 24px;" id="pop4" role="tabpanel"
+              aria-labelledby="pop4-tab">
+              <div class="pt-1">
+                <ul class="urlUsed urllist">
+                  <li>javascript:void()</li>
+                  <li>javascript:void()</li>
+                  <li>javascript:void()</li>
+                  <li>http://www.google.com</li>
+                  <li>http://www.barclaycardus.com/servicing/adduser</li>
+                  <li>http://www.google.com</li>
+                  <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20'
+                    LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON'
+                    LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-02[/@trackurl]
+                  </li>
+                  <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20'
+                    LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON'
+                    LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-03[/@trackurl]
+                  </li>
+                  <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20'
+                    LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON'
+                    LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-04[/@trackurl]
+                  </li>
+                  <li>tel:123456789</li>
+                  <li>http://www.barclaycardus.com/servicing/adduser</li>
+                  <li>https://www.facebook.com/BarclaycardUS</li>
+                  <li>https://www.twitter.com/BarclaycardUS</li>
+                  <li>https://www.youtube.com/barclaycardus</li>
+                  <li>https://plus.google.com/+barclaycardus</li>
+                  <li>https://instagram.com/barclaycardus/</li>
+                </ul>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+  <div class="bhoechie-tab-content active">
+    <center>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlContent" *ngIf="htmlSection=='fix'">
+        <h1>{{fileName}}</h1>
+
+        <div class="ErrorSection">
+          <h2>Errors</h2>
+          <div class="content">
+            <div *ngFor="let item of contentSearchObj" class="valuesection" >
+              <div class="text"><span>{{item.text}}</span></div>
+              <!-- Revisit -->
+              <div class="value">
+                <span [ngClass]="item.classes">{{item.count}}</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+</div>
+

@@ -1,0 +1,126 @@
+.errortd{
+  color:#fff;
+  background: none !important;
+}
+
+.error-lines{
+  background: red;
+  color: white;
+}
+
+.transition{
+  -webkit-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  -moz-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  -ms-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out ;
+  -o-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
+  margin-left: 1500px;
+  width: 200px;
+  opacity: 0;
+}
+
+.transition{
+  opacity: 100;
+  margin-left: 0;
+}
+
+.dashboardcontent{
+   display:block;
+}
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 0.98em;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+.control input[checked="true"] ~ .control__indicator {
+  background: #333333;
+}
+.control:hover input:not([disabled])[checked="true"] ~ .control__indicator,
+.control input[checked="true"]:focus ~ .control__indicator {
+  background: #797979;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.control input[checked="true"] ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 2px;
+  width: 5px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.textbg{
+  display: inline-block;
+  width:9em;
+  padding: .2em .8em;
+  pointer-events: none;
+  color:#333;
+}
+.ErrorSection{
+  position: relative;
+  padding-bottom: 3.5em;
+}
+.collapse{
+  width: 100%;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ccc;
+  color: #333;
+  border: 0 none;
+  border-radius: 0%;
+}
+.overselected{
+  background: #222;
+  transition: all 2s ease;
+  color:#fff;
+}
+.drop-shadow {
+  -webkit-box-shadow: 0 0 3px 0px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, .2);
+  border-radius:5px;
+  margin:0;
+  padding:0;
+}
+.container .drop-shadow {
+  padding-left:0;
+  padding-right:0;
+}

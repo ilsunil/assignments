@@ -1,0 +1,16 @@
+<!-- Trigger/Open The Modal -->
+<!-- <button id="myBtn" (click)="openModal()">Open Modal</button> -->
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <textarea name="" id="" cols="50" rows="10" [(ngModel)]="convertHtml" id="subject" *ngIf="htmlPresent"></textarea>
+    <button type="button" (click)="SaveTextFile()" class="btn btn-success validate save_text"><i
+        class="fa fa-download"></i>&nbsp;
+      Save Text file</button>
+  </div>
+
+</div>

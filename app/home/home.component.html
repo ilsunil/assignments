@@ -1,0 +1,9 @@
+<app-head-banner></app-head-banner>
+
+<app-html-validator (dataInfoEvent)="isdisabled = $event" (filaNameEvent)="fileName = $event"></app-html-validator>
+<app-button [nameOfTheButton]="btnName" [disable]="isdisabled" [ngClass]="{'hidebutton': true}" (click)="navigatelink($event)"></app-button>
+<app-modal [convertHtml]="sendInfo" [fileName]="fileName" [htmlPresent]="showTextarea"></app-modal>
+<!-- <button class="pull-right htt" (click)="convertText()" [disabled]="isdisabled">convert HTML to Text</button> -->
+<a class="pull-right htt" (click)="htmlToPlaintext()" *ngIf="!isdisabled" (click)="openModal()">convert HTML to Text</a>
+
+<app-html-validator-footer *ngIf="hideelement" [ngClass]="{'footer_wrapper': true}"></app-html-validator-footer>
