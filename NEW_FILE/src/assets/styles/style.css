@@ -4,7 +4,7 @@ html, body {
 .header {
 	background: #000000;
 	padding: 10px 0;
-	margin: 0px 0px 15px;
+	margin: 0px 0px 0px;
 }
 .logo {
 	margin: 10px 0 0 0
@@ -1870,4 +1870,28 @@ div.bhoechie-tab-menu div.list-group > a span.notification {
 .wrap .rhs{
   float: right;
   font-weight: bold;
+}
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+}
+.footer_wrapper {
+  position: sticky;
+  bottom: 0;
+  background-color: #292b2c;
+  display: block;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align:center;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.AlertText{
+  width: 22% !important;
 }

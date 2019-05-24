@@ -1,0 +1,57 @@
+<!-- <div class="iframe_sec"> -->
+<!-- <div *ngFor="let item of imagesURL">
+    <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(item)" frameborder="0" width="200" height="200"
+      webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  </div> -->
+
+<!-- <div>
+    <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(selectedUrl)" frameborder="0" width="200" height="200"
+      webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  </div> -->
+
+<!-- {{tabSelected}} -->
+
+
+
+
+
+<!-- <div *ngIf="!isImgTab; else urltab">
+    <div *ngIf="isDefault" style="width: 50%; float: left;">
+      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(selectedUrl)" frameborder="0" width="200" height="200"
+        webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <ng-template #urltab>
+    <div style="width: 50%; float: left;">
+      <iframe [href]="selectedHref" name="myFrame" width="200" height="200"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+  </ng-template> -->
+
+<!-- <p><a [href]="selectedHref" target="myFrame">Click</a></p> -->
+<!-- <p><a [href]="selectedHref" target="_blank">Click</a></p> -->
+<!-- </div> -->
+
+
+<div *ngIf="tabSelected == 1">
+  &nbsp;
+</div>
+<div *ngIf="tabSelected == 2">
+  <div class="iframe_sec">
+    <div *ngIf="isDefault">
+      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(selectedUrl)" frameborder="0" width="100%" height="400"
+        webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    </div>
+  </div>
+  <!-- <button>Mark For Review</button> -->
+</div>
+<div *ngIf="tabSelected == 3">
+  <div class="iframe_sec">
+    <div>
+      <iframe [href]="selectedHref" name="myFrame" width="100%" height="400"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+  </div>
+  <!-- <button>Mark For Review</button> -->
+</div>

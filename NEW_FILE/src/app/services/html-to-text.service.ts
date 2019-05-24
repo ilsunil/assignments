@@ -16,6 +16,7 @@ export class HtmlToTextService {
     let IMG = parser.body.querySelectorAll('alt');
     let HREF = parser.body.querySelectorAll('href');
 
+    htmlValue = htmlValue.replace(/\n\n\n+/gi, "\n\n").replace(/&bull;+/gi, " - ").replace(/&rsquo;+/gi, "'").replace(/&lsquo;+/gi, "'").replace(/&trade;+/gi, "(TM)").replace(/&frasl;+/gi, "/").replace(/&lt;+/gi, "<").replace(/&gt;+/gi, ">").replace(/&copy;+/gi, "(C)").replace(/&reg;+/gi, "(R)").replace(/&mdash;+/gi, "-").replace(/&ndash;+/gi, "-").replace(/&amp;+/gi, "&").replace(/&dagger;+/gi, "(+)").replace(/&Dagger;+/gi, "(++)").replace(/&ldquo;+/gi, "\"").replace(/&rdquo;+/gi, "\"").replace(/&hellip;+/gi, "...").replace(/&#160;+/gi, " ").replace(/&raquo;+/gi, ">");
     htmlValue = htmlValue.replace(/•/gi, '-').replace(/<o:PixelsPerInch[\s\S]*?>[\s\S]*?<\/o:PixelsPerInch>/gi, ' ').replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, ' ').replace(/<((?!h[1-6]( [^>]*)*>)(?!img( [^>]*)*>)(?!a( [^>]*)*>)(?!ul( [^>]*)*>)(?!ol( [^>]*)*>)(?!li( [^>]*)*>)(?!p( [^>]*)*>)(?!div( [^>]*)*>)(?!td( [^>]*)*>)(?!br( [^>]*)*>)[^>])*>/gi, ' ').replace(/<br( [^>]*)*>|<p( [^>]*)*>|<\/p( [^>]*)*>|<div( [^>]*)*>|<\/div( [^>]*)*>|<td( [^>]*)*>|<\/td( [^>]*)*>/gi, '\n');
     htmlValue = htmlValue.replace(/<img([^>]*)>/gi, (str, imAttrs) => {
       let imAlt = '';

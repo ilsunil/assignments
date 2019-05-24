@@ -10,6 +10,9 @@ export class ModalComponent implements OnInit {
   @Input() public convertHtml: string;  // Input from home compenent to have the html value
   @Input() public fileName: string; // Filename from the home compenent
   @Input() public htmlPresent: string; // To check whether the html is present or not(condtion to have text area or not)
+  @Input() public isClicked: boolean;
+  @Input() public AlertDropArea: boolean;
+  @Input() public AlertDropAreaText: string;
 
   constructor() { }
 

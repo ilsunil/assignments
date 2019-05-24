@@ -1,0 +1,53 @@
+<!-- <div id="myModal2" class="modal"> -->
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" (click)="closeModal()">&times;</span>          
+          <div class="modal_header">
+            <div class="pagination_text">
+              {{currPage}}/{{totalCount}}
+            </div>
+            <div class="title_text">
+              {{reviewHeader}}
+            </div>
+          </div>
+          <div class="modal_body">
+            <a class="lhs_side" [href]="isMovePreviousDisabled" (click)="movePrevious()"            
+            [ngStyle]="{'color': movePreviousStyleColor}">
+            <i _ngcontent-rhv-c7="" class="fa fa-angle-left"></i>
+            </a>
+            <div class="body_content">
+              <div class="header_text">
+                <h3>Line {{lineNumber}}</h3>
+              </div>
+              <div class="body_text text-left">
+                <h4>Current Code</h4>
+                <p>{{currCode}}</p>
+                <h4>Fixed</h4>
+                <p>{{fixedCode}}</p>
+              </div>
+            </div>
+            <a class="rhs_side" [href]="isMoveNextDisabled" (click)="moveNextAndSkipFix()"
+                [ngStyle]="{'color': moveNextStyleColor}">
+                <i _ngcontent-rhv-c7="" class="fa fa-angle-right"></i>
+            </a>
+          </div>
+          <!-- <div class="modal_footer">             -->
+            <div class="mt-4" style="width: 90%;">
+              <a href='#' (click)="moveNextAndSkipFix()" class="float-left pt-2 pl-4">{{buttonNames.skip}}</a> 
+              <div class="float-right">
+                <a href='#' (click)="fixAll()" class="float-left p-2">{{buttonNames.fixAll}}</a>          
+                <app-button class="float-left" [nameOfTheButton]='buttonNames.fix' [disable]="isFixBtnDisabled" 
+                            (click)="fixAltToTitle()"></app-button>  
+              </div>            
+          </div>
+          <br>
+          <div class="pl-5 text-left ml-4">
+                Found: <span>{{totalCount}}</span> , Fixed : <span>{{fixedCount}}</span>
+              </div>
+          <!-- </div> -->
+      
+        </div>
+      
+      <!-- </div> -->
+      

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HtmlValidatorComponent } from './html-validator/html-validator.component';
@@ -16,7 +17,9 @@ import { HtmlValidResultsComponent } from './html-valid-results/html-valid-resul
 import { ButtonComponent } from './button/button.component';
 import { HtmlToTextService } from './services/html-to-text.service';
 import { ModalComponent } from './modal/modal.component';
-
+import { HtmlValidatorFooterComponent } from './html-validator-footer/html-validator-footer.component';
+import { InfoIframeComponent } from './info-iframe/info-iframe.component';
+import { ReviewModalComponent } from './common/review-modal/review-modal.component';
 
 
 @NgModule({
@@ -30,13 +33,17 @@ import { ModalComponent } from './modal/modal.component';
     HomeComponent,
     HtmlValidResultsComponent,
     ButtonComponent,
-    ModalComponent
+    ModalComponent,
+    HtmlValidatorFooterComponent,
+    InfoIframeComponent,
+    ReviewModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgxDropzoneModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [DataSharedService, HtmlToTextService],
   bootstrap: [AppComponent],
