@@ -166,6 +166,7 @@ textarea[readonly] {background-color: #f1f1f1 !important;}
   .sectionwrapper {
     position: relative;
     overflow: hidden;
+    padding: 15px 0;
   }
   .slide-in {
     animation: slide-in 0.5s forwards;
@@ -178,6 +179,23 @@ textarea[readonly] {background-color: #f1f1f1 !important;}
     100% { -webkit-transform: translateX(0%); }
   }
 
+  html {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100%;
+    position: relative;
+  }
+
+  .main {
+     min-height: 100%;
+     padding-bottom: 55px;
+  }
+
+  .full_width{
+    width: 100% !important;
+  }
 
 
 

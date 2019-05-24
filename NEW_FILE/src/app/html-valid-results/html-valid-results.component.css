@@ -2,6 +2,12 @@
   color:#fff;
   background: none !important;
 }
+
+.error-lines{
+  background: red;
+  color: white;
+}
+
 .transition{
   -webkit-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
   -moz-transition: opacity 1000ms ease-in-out,margin-left 500ms ease-in-out;
@@ -46,11 +52,11 @@
 .control input:focus ~ .control__indicator {
   background: #ccc;
 }
-.control input:checked ~ .control__indicator {
+.control input[checked="true"] ~ .control__indicator {
   background: #333333;
 }
-.control:hover input:not([disabled]):checked ~ .control__indicator,
-.control input:checked:focus ~ .control__indicator {
+.control:hover input:not([disabled])[checked="true"] ~ .control__indicator,
+.control input[checked="true"]:focus ~ .control__indicator {
   background: #797979;
 }
 .control input:disabled ~ .control__indicator {
@@ -63,7 +69,7 @@
   position: absolute;
   display: none;
 }
-.control input:checked ~ .control__indicator:after {
+.control input[checked="true"] ~ .control__indicator:after {
   display: block;
 }
 .control--checkbox .control__indicator:after {
@@ -87,4 +93,109 @@
 .ErrorSection{
   height: 20em;
   overflow-y: scroll;
+}
+
+
+/* tab page styles here */
+.areaBreak{
+  word-break: break-word;
+}
+
+.tab-slider--nav ul{
+  margin: 0px 0 0px 0;
+  padding: 0px;
+  list-style: none;
+  display: block;
+}
+
+.tab-slider--nav ul li {
+  display: inline-block;
+  padding: 10px;
+  margin: 0px;
+  border: 1px solid gray;
+  cursor: pointer;
+  width: 33%;
+}
+.tab-slider--body ul{
+  margin: 0px;
+  padding: 0px;
+}
+.tab-slider--body ul li{
+  list-style: none;
+  padding: 5px 30% 5px 5px;
+  border: 1px solid#d1d5da;
+  -webkit-box-shadow: 0px 2px 5px 0px#ededed;
+-moz-box-shadow: 0px 2px 5px 0px#ededed;
+box-shadow: 0px 2px 5px 0px #ededed;
+color: #79bde8;
+position: relative;
+}
+.tab-slider--body ul li.active{
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.tab-slider--body ul li.active span.checkSymbol{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: 0px;
+  right: 50px;
+}
+
+.tab-slider--trigger.active{
+  background-color: #79bde8;
+  color: #ffffff;
+}
+.tab-slider--body ul li a{
+  color: #79bde8;
+  text-decoration: none;
+}
+
+/* iframe styles here */
+.if_sec1{
+  overflow: hidden;
+}
+
+.tab-slider--container{
+  overflow: hidden;
+  word-break: break-all;
+  text-align: left;
+}
+.markreview{
+  margin: 20px;
+}
+
+
+.bgColor{
+  background-color: red;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  overflow: hidden;
+}
+.trimspacesdiv
+{
+  border: 1px solid #cccccc;
+  display: flex;
+}
+.reviewheader
+{
+  border: 1px solid #cccccc; 
+  border-bottom:none;
+}
+.reviewbody
+{
+  border: 1px solid #cccccc;
+  display: inline-block;
 }

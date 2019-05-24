@@ -19,8 +19,9 @@
   margin: 12% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-  height: 500px;
+  width: 50%; /* Could be more or less, depending on screen size */
+  /* height: 500px; */
+  height: auto;
 }
 
 /* The Close Button */
@@ -53,6 +54,10 @@
 textarea{
   height: 100%;
   margin: 20px 0 30px 0;
+}
+.dragAreaAlert{
+  text-align: center;
+  font-weight: bold;
 }
 
 

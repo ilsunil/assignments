@@ -1,6 +1,8 @@
-import { Component, OnInit, Input, AfterViewChecked, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, Output, EventEmitter, ViewChild } from '@angular/core';
 import { DataSharedService } from '../shared.service';
-import { SectionNames } from '../common.utils';
+import { SectionNames, ReviewName } from '../common.utils';
+import { HtmlValidatorComponent } from '../html-validator/html-validator.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-html-valid-results',
@@ -10,17 +12,66 @@ import { SectionNames } from '../common.utils';
 export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
   title = 'Select/Deselect all errors';
   textAreaValue = this.sharedService.HtmlToValidate;
-  htmlValue = this.sharedService.HtmlToValidate;
-  parser = new DOMParser().parseFromString(this.htmlValue, 'text/html');
 
+  htmlValue;
+  parser;
+  // htmlValue = this.sharedService.HtmlToValidate;
+  // parser = new DOMParser().parseFromString(this.htmlValue, 'text/html');
+  isInitialized = false;
   htmlSection;
   fileName;
   attrSearchObj;
   attrSearchObjErrors;
   attrSearchObjErrorsDisp = [];
+  selectAllBtn = true;
   contentSearchObj;
   HTMLSearchObj;
   HTMLSearchImagesObj;
+
+  reviewName;
+  altToTitleTotalCount = 0;
+  altToTitleFixedCount = 0;
+  nonAsciiToAsciiTotalCount = 0;
+  nonAsciiToAsciiFixedCount = 0;
+  fixSectionVars = {
+    trimCodeButtonName: 'Trim Code',
+    reviewButtonName: 'Review',
+    downloadButtonName: 'Download Code'  
+  }
+
+  viewMode = 'tab1';
+  font: any;
+  fonts: Array<any>;
+  ursl: any;
+  urlHref: Array<any>;
+  imgs: any;
+  imgSrc: Array<any>;
+  isSel;
+  showCheckmark = false;
+
+  detectTab;
+  selectedSrc: Array<any> = this.imgSrc;
+  selectedHref: Array<any> = this.urlHref;
+
+  onSelect(src = this.imgSrc): void {
+    this.selectedSrc = src;
+    this.isSel = true;
+  }
+
+  onSelectUrl(url = this.urlHref): void {
+    this.selectedHref = url;
+  }
+
+
+  addClass(event) {
+    let chechMark = event.srcElement.classList.add('bgColor');
+  }
+
+  markSrc() {
+    let tobereviewd = document.querySelectorAll('li');
+    console.log(tobereviewd);
+  }
+
   statusClassNames = {
     available: 'fa fa-check-square',
     unavailable: 'fa fa-window-close markupError'
@@ -34,12 +85,16 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
     red: 'bg-danger w-25 text-white rounded mt-3 mb-3 pt-2 pb-2'
   };
 
-  constructor(private sharedService: DataSharedService) {}
+  constructor(
+    private sharedService: DataSharedService,
+    private HtmlValidatorComponent: HtmlValidatorComponent,
+    private http: HttpClient
+  ) { }
 
   ngOnInit() {
+    // Invoke error value in another file
+    // this.attrSearchObjErrors.emit(this.validateAttribute);
     this.fileName = this.sharedService.FileName;
-// Invoke error value in another file
-  // this.attrSearchObjErrors.emit(this.validateAttribute);
 
     // Invoke the subscribe method to load the HTML sections
     this.sharedService.htmlSectionName.subscribe((secName: string) => {
@@ -56,28 +111,74 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
         case SectionNames.content:
           this.htmlSection = SectionNames.content;
           break;
-        case SectionNames.tools:
-          this.htmlSection = SectionNames.tools;
+        case SectionNames.info:
+          this.htmlSection = SectionNames.info;
           break;
-        case SectionNames.markup:
+        case SectionNames.fix:
+          this.htmlSection = SectionNames.fix;
+          break;
         default:
           this.htmlSection = SectionNames.markup;
           break;
       }
     });
+
+
   }
+
+
 
   ngAfterViewChecked() {
     // Invoke this method when DOM is ready
-    this.validateHtmlmarkup();
-    this.validateAttribute();
-    this.validateContent();
-    this.validateHTMLTAGS();
-    this.validateHTMLIMAGES();
+
+    this.fileName = this.sharedService.FileName;
+    this.altToTitleTotalCount = this.sharedService.getAltTitleTotalCount;
+    this.htmlValue = this.sharedService.HtmlToValidate;
+    this.parser = new DOMParser().parseFromString(this.htmlValue, 'text/html');
+    this.getAlltheFonts();
+
+    if (!this.isInitialized && this.sharedService.HtmlToValidate) {
+      this.validateHtmlmarkup();
+      this.validateAttribute();
+      this.validateContent();
+      this.validateHTMLTAGS();
+      this.validateHTMLIMAGES();
+      this.isInitialized = true;
+    }
+
   }
+
+  showAltToTitleReviewModal(){
+    this.reviewName = '';
+    document.getElementById('reviewModal').style.display='block';
+    this.reviewName = ReviewName.altToTitle;
+  }
+
+  //Method to trim the spaces of the HTML content
+  trimSpaces() {
+    let strData = (document.getElementById('subject') as HTMLTextAreaElement).value;
+    // strData = strData.replace(/(^\s*)|(\s*$)/gi, '').
+    //                   replace(/[ ]{2,}/gi, ' ').
+    //                   replace(/\n /, '\n');
+
+    //strData = strData.replace(/^\s+|\s+$/gm,'');
+
+    strData = strData.replace(/^\s+/gm,'');
+    (document.getElementById('subject') as HTMLTextAreaElement).value = strData;
+  }
+
+  //Method to undo trimmed HTML content
+  undoTrim()
+  {
+    event.preventDefault();
+    (document.getElementById('subject') as HTMLTextAreaElement).value = 
+        this.sharedService.HtmlToValidate;
+  }
+
 
   //Method to validate the HTML markup section
   validateHtmlmarkup() {
+    // this.fileName = this.sharedService.FileName;
     let htmlValue = this.sharedService.HtmlToValidate;
     if (!htmlValue) {
       return;
@@ -186,6 +287,7 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
   }
   // Validation for attibute selection section
   validateAttribute() {
+    // INVOKE constructor myhtmlvalue to check whether file is loaded or not
     const myhtmlValue = this.sharedService.HtmlToValidate;
     if (!myhtmlValue) {
       return;
@@ -193,6 +295,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
     let errorcount = 0;
     this.attrSearchObjErrors = [];
     this.attrSearchObjErrorsDisp = [];
+    // INVOKE FUNCTION appendLineNos ERRORS TO IDENTIFY THE NUMBER OF LINES ONCE CHEKCED
+
     const appendLineNos = (arr, htmlValueArr) => {
       for (let i = 0; i < htmlValueArr.length; i++) {
         arr.map(item => {
@@ -209,17 +313,21 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
           }
         });
       }
+      // MAPPING ARRAY BY GETTING DYNAMICA DATA AND BIND WITH THE HTML
+
       arr.map(item => {
         item.lineNos.map(line => {
           this.attrSearchObjErrorsDisp.push({
             line: line,
             lineStr: item.lineStr,
             text: item.text,
-            isSelected: false
+            isSelected: true
           });
         });
       });
     };
+    // CONSTRUCT FUNCTION TO CHECK ERRORS USING START AND END TAG
+
     const checkEndTags = (startTagSearch, endTagSearch) => {
       const startTag = this.attrSearchObj.find(
         item => item.search === startTagSearch
@@ -239,6 +347,7 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
         }
       }
     };
+    // PAIRING KEYVALUE TO CHECK THE LIST OF ERRORS IN THE HTML ATTRIBUTES FILE
 
     this.attrSearchObj = [
       { search: /href/gi, text: 'HREF="', noError: true },
@@ -292,17 +401,14 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
       { search: 'HEAD>', text: 'HEAD>', noError: true },
       { search: '<META', text: '<META>', noError: true }
     ];
-    // console.log(this.attrSearchObj);
-    // const myhtmlValue = this.sharedService.HtmlToValidate;
-    // const myhtmlValue = htmlValue.toUpperCase();
+    // MAPPING THE ATTIBUTE CODE AND BINDING THE VALUE WITH THE HTML FILE
     this.attrSearchObj.map(item => {
       if (typeof item.search !== 'string') {
         item.count = ((myhtmlValue || '').match(item.search) || []).length;
-        //console.log(item.count);
       } else {
         item.count = this.AnchorTagAttribute(item.search, myhtmlValue);
-        console.log(item.count);
       }
+      // CHECK COUNT AND PUSH THE ERROR VALUE TO THE HTML VALUES
 
       if (item.count && !item.noError) {
         item.classes = [];
@@ -312,6 +418,8 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
         this.attrSearchObjErrors.push(item);
       }
     });
+    // FILTER THE ELEMENT ONCE THE VALUES ARE APPENDED
+
     const hasFuncs = this.attrSearchObj.filter(item => item.funcs);
     hasFuncs.map(item => {
       item.funcs.map(func => func());
@@ -320,24 +428,28 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
 
     this.sharedService.attribErrorsCount.next(errorcount || 0);
 
-    let acc = document.getElementsByClassName("accordion");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight){
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
-        }
-      });
+  }
+  // INVOKE FUNCTION FOR ALL CHECKBOXES EVENT on CHECKED OF CHECKBOX
+  htmlAttrErrorClicked(evt, i) {
+    if (evt.target.tagName === 'INPUT') {
+      const item = this.attrSearchObjErrorsDisp[i];
+      item.isSelected = !item.isSelected;
+      this.selectAllBtn =
+        this.attrSearchObjErrorsDisp.filter(item => item.isSelected).length ===
+        this.attrSearchObjErrorsDisp.length;
     }
-
+  }
+  // INVOKE FUNCTION Selectall ERRORS EVENT on CHECKED OF CHECKBOX
+  selectAllErrors(evt) {
+    const isChecked = evt.target.checked;
+    this.attrSearchObjErrorsDisp.map(item => {
+      item.isSelected = isChecked;
+    });
+    this.selectAllBtn = isChecked;
   }
 
-
+  setColorsToLines() {
+  }
   validateContent() {
     const myhtmlValue = this.sharedService.HtmlToValidate;
     if (!myhtmlValue) {
@@ -526,28 +638,9 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
     return false;
   }
 
-  // validatePreheader(htmlValue) {
-  //   if (htmlValue.match('PREHEADER') != null || htmlValue.match('PRE-HEADER') != null ||
-  //     htmlValue.match('PRE HEADER') != null)
-  //     return true;
-  //   return false;
-  // }
-
-  htmlToPlaintext(textAreaValue) {
-    console.log();
-    // tslint:disable-next-line:max-line-length
-    this.textAreaValue = this.textAreaValue
-      .replace(/•/gi, '-')
-      .replace(/<o:PixelsPerInch[\s\S]*?>[\s\S]*?<\/o:PixelsPerInch>/gi, ' ')
-      .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, ' ')
-      .replace(/<[^>]+>/gm, ' ')
-      .replace(/^\s*[\r\n]/gm, ' ');
-  }
-
-  imgs: any;
-  imgSrc: Array<any>;
-
+  // to get the all the imag SRC
   getAlltheImgSrc() {
+
     let imgs = this.parser.querySelectorAll('img');
     this.imgSrc = [];
     for (let i = 0; i < imgs.length; i++) {
@@ -556,27 +649,53 @@ export class HtmlValidResultsComponent implements OnInit, AfterViewChecked {
     return this.imgSrc;
   }
 
-  ursl: any;
-  urlHref: Array<any>;
-
+  // to get the HREF of the anchor tag
   getAlltheUrls() {
+
     let ursl = this.parser.querySelectorAll('a');
     this.urlHref = [];
     for (let i = 0; i < ursl.length; i++) {
       this.urlHref.push(ursl[i].href);
-      console.log(this.urlHref);
     }
     return this.urlHref;
   }
 
-  font: any;
-  fonts: Array<any>;
+  detectChange(tab) {
+    // this.detectTab = tab.path[0].attributes.rel.value;
+    this.detectTab = tab;
+  }
+
+  // get all the fonts used on the html
   getAlltheFonts() {
-    let font = this.parser.querySelectorAll('');
+
+    // let font = (document.getElementById('subject') as HTMLTextAreaElement).getAttribute('style');
+    let font = this.parser.getElementsByTagName('td');
     this.fonts = [];
     for (let i = 0; i < font.length; i++) {
-      this.fonts.push(font[i]);
-      console.log(this.fonts);
+      if (font[i].style.fontFamily) {
+        this.fonts.push(font[i].style.fontFamily);
+      }
     }
+    let unique = Array.from(new Set(this.fonts));
+    this.fonts = unique;
+    return this.fonts;
   }
+
+  fixedCountChange(fixedCount)
+  {
+    this.altToTitleFixedCount = fixedCount;
+  }
+
+  altToTitleUndo()
+  {
+    event.preventDefault();
+    (document.getElementById('subject') as HTMLTextAreaElement).value = 
+            this.sharedService.HtmlToValidate;
+  }
+
+  nonAsciiToAsciiUndo()
+  {
+    
+  }
+
 }

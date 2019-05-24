@@ -1,7 +1,7 @@
 <div class="col-lg-1 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu pull-left">
-  <div class="list-group" id="subnav">
+  <div class="list-group" id="subnav" (click)="myFunction($event)" >
 
-    <a class="list-group-item text-center" (click)="showResults('markup')">
+    <a class="list-group-item text-center active" (click)="showResults('markup')">
     <i class="fa fa-code font-weight-bold">
     <span id="markupErrorsCount" class="notification"></span></i>
     <span>HTML MARKUP</span></a>
@@ -29,11 +29,14 @@
     <i class="fa fa-clipboard-list"></i>
     <span>CONTENT</span> </a>
 
-    <a class="list-group-item text-center active" (click)="showResults('tools')">
+    <a class="list-group-item text-center" (click)="showResults('info')">
     <h4 class="glyphicon glyphicon-credit-card"></h4>
     <i class="fa fa-lightbulb-o"></i>
-    <span>IFO</span></a>
+    <span>INFO</span></a>
 
-
+    <a class="list-group-item text-center" (click)="showResults('fix')">
+      <h4 class="glyphicon glyphicon-credit-card"></h4>
+      <i class="fa fa-wrench"></i>
+      <span>FIX</span></a>
   </div>
 </div>

@@ -27,34 +27,40 @@
     <center>
       <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlAttributes"
         *ngIf="htmlSection=='attributes'">
-        <h1>TOP_LEVEL_ALLMODULES_FINAL.HTML <!--{{fileName}} --></h1>
+        <h1>TOP_LEVEL_ALLMODULES_FINAL.HTML
+          <!--{{fileName}} -->
+        </h1>
         <div class="ErrorSection">
-        <h2>Errors</h2>
-        <div class="Attribute">
-          <div *ngFor="let item of attrSearchObj" class="valuesection" >
-            <div class="text"><span>{{item.text}}</span></div>
-            <!-- Revisit -->
-            <div class="value">
-              <span [ngClass]="item.classes">{{item.count}}</span>
+          <h2>Errors</h2>
+          <div class="Attribute">
+            <div *ngFor="let item of attrSearchObj" class="valuesection">
+              <ng-container *ngIf="!item.noError && item.count">
+                <div class="text"><span>{{item.text}}</span></div>
+                <!-- Revisit -->
+                <div class="value">
+                  <span [ngClass]="item.classes">{{item.count}}</span>
+                </div>
+              </ng-container>
             </div>
+            <div class=accordian></div>
           </div>
-          <div class=accordian></div>
         </div>
       </div>
-      </div>
       <!-- <app-html-error-select [attrSearchObjErrors]="attrSearchObjErrors"></app-html-error-select> -->
-      <div class="col-lg-11 col-md-9 col-sm-9 mt-5 p-0 text-left" *ngIf="attrSearchObjErrors"  >
-        <label class="control control--checkbox" >
-            <input type="checkbox" />
-             <span class="font-weight-bold">{{title}}</span>
-              <div class="control__indicator"></div>
-            </label>
-        <div class="form-check pt-3" >
-        <label *ngFor="let item of attrSearchObjErrorsDisp" class="control control--checkbox">
-            <input class="form-check-input" type="checkbox" />
-         <span class="bg-faded textbg rounded" >{{item.text}}</span> - Line {{item.line}}; {{item.lineStr}}...
-         <div class="control__indicator"></div>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-5 p-0 text-left"
+        *ngIf="htmlSection=='attributes' && attrSearchObjErrors">
+        <label class="control control--checkbox">
+          <input type="checkbox" checked="true" [attr.checked]="selectAllBtn" (change)="selectAllErrors($event)">
+          <span class="font-weight-bold">{{title}}</span>
+          <div class="control__indicator"></div>
         </label>
+        <div class="form-check pt-3">
+          <label *ngFor="let item of attrSearchObjErrorsDisp; let i = index" class="control control--checkbox"
+            (click)="htmlAttrErrorClicked($event, i)">
+            <input class="form-check-input" type="checkbox" [attr.checked]="item.isSelected">
+            <span class="bg-faded textbg rounded">{{item.text}}</span> - Line {{item.line}}; {{item.lineStr}}...
+            <div class="control__indicator"></div>
+          </label>
         </div>
       </div>
     </center>
@@ -64,11 +70,11 @@
   <div class="bhoechie-tab-content active">
     <center>
       <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='tables'" id="htmlTags">
-        <h1>{{filename}}</h1>
+        <h1>{{fileName}}</h1>
         <div class="ErrorSection">
           <h2>ERRORS</h2>
           <div class="tables">
-            <div *ngFor="let item of HTMLSearchObj" class="valuesection" >
+            <div *ngFor="let item of HTMLSearchObj" class="valuesection">
               <div class="text"><span>{{item.text}}</span></div>
               <!-- Revisit -->
               <div class="value">
@@ -89,7 +95,7 @@
         <div class="ErrorSection">
           <h2>Errors</h2>
           <div class="images">
-            <div *ngFor="let item of HTMLSearchImagesObj" class="valuesection" >
+            <div *ngFor="let item of HTMLSearchImagesObj" class="valuesection">
               <div class="text"><span>{{item.text}}</span></div>
               <!-- Revisit -->
               <div class="value">
@@ -111,7 +117,7 @@
         <div class="ErrorSection">
           <h2>Errors</h2>
           <div class="content">
-            <div *ngFor="let item of contentSearchObj" class="valuesection" >
+            <div *ngFor="let item of contentSearchObj" class="valuesection">
               <div class="text"><span>{{item.text}}</span></div>
               <!-- Revisit -->
               <div class="value">
@@ -127,104 +133,136 @@
 
   <div class="bhoechie-tab-content active">
     <center>
-      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='tools'">
-        <h1>Creative_P2_BizBox_remarketing_email.html</h1>
-        <h2>TOOLS</h2>
-        <div class="col-md-12 text-center" style="width: 76%">
-          <nav class="nav-justified ">
-            <div class="nav nav-tabs " id="nav-tab" role="tablist">
-              <a class="nav-item nav-link active" id="pop1-tab" data-toggle="tab" href="#pop1" role="tab"
-                aria-controls="pop1" aria-selected="true">HTML TO TEXT CONVERT</a>
-              <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2" role="tab" aria-controls="pop2"
-                aria-selected="false">FONT-FAMILY</a>
-              <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3" role="tab" aria-controls="pop3"
-                aria-selected="false">IMAGE PATHS</a>
-              <a class="nav-item nav-link" id="pop4-tab" data-toggle="tab" href="#pop4" role="tab" aria-controls="pop4"
-                aria-selected="false">URL'S USED</a>
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" *ngIf="htmlSection=='info'">
+        <h1>{{fileName}}</h1>
+        <!-- <h2>INFO</h2> -->
 
-            </div>
-          </nav>
-          <div class="tab-content mt-3" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="pop1" role="tabpanel" aria-labelledby="pop1-tab">
-              <div class="pt-3"> <button type="button" class="btn btn-primary validate mr-2"> <i
-                    class="fa fa-file-text"></i>&nbsp; CONVERT TO TEXT </button>
-              </div>
-              <p><textarea rows="12" cols="24" class="w-100 mt-3"
-                  style="margin-top: 16px; margin-bottom: 0px; height: 282px;"></textarea></p>
-
-            </div>
-            <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
-              <div class="pt-1 mb-4">
-                <blockquote class="quote-card blue-card">
-                  <span class="fontsUsed">"Times New Roman"<br>Arial, Helvetica, sans-serif<br>Tahoma, Geneva, Arial,
-                    Helvetica, sans-serif<br>Tahoma, Geneva, sans-serif</span>
-                </blockquote>
-
-              </div>
-            </div>
-            <div class="tab-pane fade  text-left pl-3 mb-2" style="line-height: 20px;" id="pop3" role="tabpanel"
-              aria-labelledby="pop3-tab">
-              <div class="pt-1">
-                <ul class="imgPath imagelist">
-                  <li>http://images.bfi0.com/creative/2016/barclaycard/05-16/0375/img/card-fpo.jpg</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/padlock.gif</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/billboards/aa2_au.jpg</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_multi.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_add.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/icons/aa_spread.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/buttons/add_user_aa2.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/facebook.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/twitter.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/youtube.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/google_plus.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/instagram.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/appStore.png</li>
-                  <li>http://images.bfi0.com/creative/2018/barclaycard/06/9370/images/social/googlePlay.png</li>
-                  <li>http://images.bfi0.com/creative/2016/barclaycard/05-16/0375/img/aadvantage-logo.jpg</li>
-                  <li>http://images.bfi0.com/creative/2015/barclaycard/07-15/K14E-4118/ha/images/logos/barc_logo.jpg
-                  </li>
+        <div class="row">
+          <div class="col-md-5 if_sec1">
+            <div class="">
+              <div class="tab-slider--nav">
+                <ul class="tab-slider--tabs">
+                  <li class="tab-slider--trigger" [class.active]="viewMode == 'tab1'" rel="tab1"
+                    (click)="viewMode ='tab1';getAlltheFonts();detectChange(1)">
+                    FONT-FAMILY</li>
+                  <li class="tab-slider--trigger" [class.active]="viewMode == 'tab2'" rel="tab2"
+                    (click)="viewMode ='tab2';getAlltheImgSrc();detectChange(2)">
+                    IMAGE PATHS</li>
+                  <li class="tab-slider--trigger" [class.active]="viewMode == 'tab3'" rel="tab3"
+                    (click)="viewMode ='tab3';getAlltheUrls();detectChange(3)">
+                    URL'S USED</li>
                 </ul>
               </div>
-            </div>
+              <div class="tab-slider--container" [ngSwitch]="viewMode">
 
-            <div class="tab-pane fade text-left pl-3 mb-2" style="line-height: 24px;" id="pop4" role="tabpanel"
-              aria-labelledby="pop4-tab">
-              <div class="pt-1">
-                <ul class="urlUsed urllist">
-                  <li>javascript:void()</li>
-                  <li>javascript:void()</li>
-                  <li>javascript:void()</li>
-                  <li>http://www.google.com</li>
-                  <li>http://www.barclaycardus.com/servicing/adduser</li>
-                  <li>http://www.google.com</li>
-                  <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20'
-                    LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON'
-                    LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-02[/@trackurl]
-                  </li>
-                  <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20'
-                    LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON'
-                    LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-03[/@trackurl]
-                  </li>
-                  <li>[@trackurl LinkID='7cb44759d79040eca3b90fd7ea11d401' LinkName='LINK_20' LinkTag='TAG_20'
-                    LinkDesc='DESC_20' Tracked='ON' Encode='OFF' AppendSuffix='ON' Render='ON'
-                    LinkType='REDIRECT']https://www.spectrum.com/myfutbol?cmp=eml-mpl-dpwc-twc-acq-clg-04[/@trackurl]
-                  </li>
-                  <li>tel:123456789</li>
-                  <li>http://www.barclaycardus.com/servicing/adduser</li>
-                  <li>https://www.facebook.com/BarclaycardUS</li>
-                  <li>https://www.twitter.com/BarclaycardUS</li>
-                  <li>https://www.youtube.com/barclaycardus</li>
-                  <li>https://plus.google.com/+barclaycardus</li>
-                  <li>https://instagram.com/barclaycardus/</li>
-                </ul>
+                <div id="tab1" class="tab-slider--body" *ngSwitchCase="'tab1'">
+                  <!-- <button (click)="removeDuplicatesFonts(fonts)">Remove Duplicates</button> -->
+                  <ul class="areaBreak">
+                    <li *ngFor="let font of fonts">
+                      {{font}}
+                    </li>
+                  </ul>
+                </div>
+
+                <div id="tab2" class="tab-slider--body" *ngSwitchCase="'tab2'">
+                  <ul>
+                    <li *ngFor="let src of imgSrc; let i = index" (click)="onSelect(src); addClass($event)">
+                      {{src}} <span *ngIf="src == selectedSrc" class="checkSymbol">
+                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                        <span><i class="fa fa-close" aria-hidden="true"></i><i class="fa fa-exclamation"></i></span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div id="tab3" class="tab-slider--body" *ngSwitchCase="'tab3'">
+                  <ul class="areaBreak">
+                    <li *ngFor="let url of urlHref; let i = index">
+                      <a [href]="url" target="myFrame" (click)="onSelectUrl(url)">{{url}}</a>
+                    </li>
+                  </ul>
+                </div>
 
               </div>
             </div>
-
+          </div>
+          <div class="col-md-7">
+            <app-info-iframe [imagesURL]="imgSrc" [selectedUrl]="selectedSrc" [isDefault]="isSel"
+              [selectedHref]="selectedHref" [tabSelected]="detectTab">
+            </app-info-iframe>
+            <button class="markreview" *ngIf="detectTab == 2 || detectTab == 3" (click)="markSrc()"><i
+                class="fa fa-exclamation"></i> Mark
+              For Review</button>
           </div>
         </div>
+
+
+
+
       </div>
     </center>
   </div>
-</div>
 
+  <div class="bhoechie-tab-content active">
+    <center>
+      
+      <div class="col-lg-11 col-md-9 col-sm-9 mt-2 dashboardcontent" id="htmlContent" 
+              *ngIf="htmlSection=='fix'">
+        <h1>{{fileName}}</h1>
+
+        <div class="w-75 mb-5 pt-4 pb-4 trimspacesdiv" >
+          <div class="col-6 p-0">
+            <app-button style="float: left;" [nameOfTheButton]="fixSectionVars.trimCodeButtonName" 
+                      (click)="trimSpaces();">
+          </app-button></div>
+          <div class="col-6 text-right pt-2"><a href='#' (click)="undoTrim();">UNDO</a></div>
+        </div>
+
+        <div class="col-12 w-75 pt-2 pb-2 text-left font-weight-bold reviewheader">Alt to Title</div>
+        <div class="w-75 mb-5 pt-3 pb-3 reviewbody">
+         <div class="col-12 text-left mb-3"> 
+           <div class="col-12 clear p-0">
+             <p class="w-25 float-left mb-1">Issues found </p>: <b>{{altToTitleTotalCount}}</b>
+         </div> 
+         <div class="col-12 clear p-0"> 
+           <p class="w-25 float-left mb-1">Fixed </p>: <b>{{altToTitleFixedCount}}</b></div>           
+          </div>
+          <div class="col-6 p-0 float-left"> 
+            <app-button style="float:left;" [nameOfTheButton]="fixSectionVars.reviewButtonName"
+              (click)="showAltToTitleReviewModal()">
+            </app-button>
+          </div> <div class="col-6 text-right pt-2 float-right">
+            <a href='#' (click)="altToTitleUndo()">UNDO</a></div>            
+        </div>
+
+        <br>
+
+        <div class="col-12 w-75 pt-2 pb-2 text-left font-weight-bold reviewheader">Non ASCII to ASCII</div>          
+        <div class="w-75 mb-5 pt-3 pb-3 reviewbody">
+            <div class="col-12 text-left mb-3"> 
+                <div class="col-12 clear p-0">
+                  <p class="w-25 float-left mb-1">Issues found </p>: <b>{{nonAsciiToAsciiTotalCount}}</b>
+              </div> 
+              <div class="col-12 clear p-0"> 
+                <p class="w-25 float-left mb-1">Fixed </p>: <b>{{nonAsciiToAsciiFixedCount}}</b></div>                
+            </div>
+            <div class="col-6 p-0 float-left"> 
+                <app-button style="float:left;" [nameOfTheButton]="fixSectionVars.reviewButtonName"
+                  (click)="showAltToTitleReviewModal()">
+                </app-button>
+              </div> <div class="col-6 text-right pt-2 float-right">
+                <a href='#' (click)="nonAsciiToAsciiUndo()">UNDO</a>
+            </div>
+        </div>         
+        
+        <br>
+        <app-button [nameOfTheButton]="fixSectionVars.downloadButtonName"></app-button>
+
+        <app-review-modal id="reviewModal" [reviewName]="reviewName" class="modal"
+                        (fixedCountChange)="fixedCountChange($event)"></app-review-modal>
+
+      </div>
+
+    </center>
+  </div>
+</div>

@@ -88,3 +88,17 @@
   height: 20em;
   overflow-y: scroll;
 }
+.list-group-item{
+  display: block;
+  cursor: pointer;
+}
+.list-group-item:hover{
+  background-color: #87c9f3;
+  box-shadow: inset 4px -38px 44px 16px #87c9f3;
+}
+.list-group-item span{
+  pointer-events: none;
+}
+.list-group-item i{
+  pointer-events: none;
+}

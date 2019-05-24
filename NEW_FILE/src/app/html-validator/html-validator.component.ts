@@ -1,4 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, HostListener, Directive, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Input,
+  HostListener,
+  Directive,
+  Output,
+  EventEmitter,
+  ViewChildren
+} from '@angular/core';
 import { DataSharedService } from '../shared.service';
 
 declare var $: any; //intentional use of jQuery-not recommended though
@@ -12,16 +23,11 @@ declare var $: any; //intentional use of jQuery-not recommended though
   selector: '[scrollTracker]'
 })
 export class HtmlValidatorComponent implements OnInit {
-
-  constructor(private sharedService: DataSharedService) { }
-
-  ngOnInit() {
-
-  }
+  @Input() hideelement: boolean = false;
   @HostListener('scroll', ['$event'])
   @ViewChild('inputMessage') inputMessageRef: ElementRef;
-  @ViewChild("subject") block: ElementRef;
-
+  @ViewChild('subject') block: ElementRef;
+  @ViewChildren('codeLines') codeLines: ElementRef[];
   @Output() public dataInfoEvent = new EventEmitter();
   @Output() public filaNameEvent = new EventEmitter();
   // Dynamic pulling data from selected file
@@ -33,7 +39,7 @@ export class HtmlValidatorComponent implements OnInit {
   isValue;
   lineNum = 50;
   isData: boolean = true;
-  showdeviceDropDown: boolean =true;
+  showdeviceDropDown: boolean = true;
   placeholderText: string = '<div class="dropzone">' +
     '<div class="wrap">' +
     '<div class="lhs">' +
@@ -45,20 +51,13 @@ export class HtmlValidatorComponent implements OnInit {
     '</div>' +
     '</div>';
 
+  constructor(private sharedService: DataSharedService) { }
 
-
+  ngOnInit() {
+  }
   showNumber(num) {
     return new Array(num);
   }
-
-  // ondragover(e) {
-  //   e = e || event;
-  //   e.preventDefault();
-  // }
-  // ondrop(e) {
-  //   e = e || event;
-  //   e.preventDefault();
-  // }
 
   public onFilesAdded(files: File[]) {
     // declaring an ID
@@ -78,6 +77,7 @@ export class HtmlValidatorComponent implements OnInit {
         // declaring file format name
         let myFiles = files[0].name;
         this.selectedFiles = myFiles;
+        this.sharedService.FileName = myFiles;
         // Files reader on load
         reader.onload = (e: ProgressEvent) => {
           // this content string could be used directly as an image source
@@ -85,7 +85,8 @@ export class HtmlValidatorComponent implements OnInit {
           // or be uploaded to a webserver via HTTP request.
           elem.setAttribute("style", "display: block;");
           // Appending data to textarea
-          this.block.nativeElement.innerHTML = content;
+          // this.block.nativeElement.innerHTML = content;
+          this.block.nativeElement.textContent = content;
           // Fetching element based on the ID of element and displaying it // Adding style to append div overlay
           let Menutoggle: Element = document.getElementById("menu-toggle"); // or something
           Menutoggle.setAttribute("style", "z-index:2;");
@@ -93,7 +94,7 @@ export class HtmlValidatorComponent implements OnInit {
 
           // Fetching element based on the ID of element and Appending the line number to the value
           let text = (document.getElementById("subject") as HTMLTextAreaElement).value;
-          // this.sharedService.HtmlToValidate = text;
+          this.sharedService.HtmlToValidate = text;
           if (text != null) {
             this.isdisabled = false;
             this.dataInfoEvent.emit(this.isdisabled);
